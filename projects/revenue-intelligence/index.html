@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Revenue Intelligence · Haley Maes</title>
+  <meta name="description" content="Merchandise net sales from the UCI Online Retail II invoices, with a walk-forward forecast and scenario ranges. Nominal GBP. Not profit or cash." />
+  <meta name="theme-color" content="#F8F5EF" />
+  <link rel="icon" href="./assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="./assets/brand/icon-192.png" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+  <script src="./js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="./css/site.css" />
+  <link rel="stylesheet" href="./css/themes.css" />
+  <link rel="stylesheet" href="./css/palette.css?v=locked" />
+  <style>
+    .ri-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 16px;
+    }
+    .ri-controls button {
+      appearance: none;
+      border: 1px solid var(--border-subtle);
+      background: var(--background-primary);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font: 500 0.78rem/1 Inter, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .ri-controls button.is-on {
+      background: var(--text-primary);
+      color: var(--background-highlight);
+      border-color: var(--text-primary);
+    }
+    .ri-controls button:focus-visible {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 2px;
+    }
+    .ri-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      margin: 10px 0 4px;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+    }
+    .ri-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ri-legend i {
+      width: 18px;
+      height: 2px;
+      background: var(--chart-ink);
+      display: inline-block;
+    }
+    .ri-legend .band {
+      height: 10px;
+      background: color-mix(in srgb, var(--accent-champagne) 35%, transparent);
+    }
+    .ri-legend .forecast {
+      background: var(--accent-champagne);
+      border-top: 1px dashed transparent;
+      height: 0;
+      border-top-width: 2px;
+      border-top-style: dashed;
+      border-top-color: var(--accent-champagne);
+      background: transparent;
+    }
+    .ri-legend .scenario {
+      background: var(--chart-smoke);
+    }
+    .ri-readout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 8px 0 4px;
+    }
+    .ri-readout div {
+      padding: 12px 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .ri-readout span {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .ri-readout strong {
+      display: block;
+      margin-top: 6px;
+      font-family: "Instrument Serif", serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+    }
+    .ri-bars {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .ri-bar {
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.88rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .ri-bar i {
+      display: block;
+      height: 8px;
+      width: var(--w);
+      border-radius: 99px;
+      background: var(--chart-ink);
+    }
+    .ri-bar b { font-weight: 500; }
+    .ri-split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .ri-note {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .subpage .console table th,
+    .subpage .console table td {
+      border-bottom-color: var(--border-subtle);
+      color: var(--text-primary);
+    }
+    .subpage .console .fine { color: var(--text-secondary); }
+    .subpage .console .chip {
+      color: var(--text-secondary);
+      border-color: var(--border-subtle);
+    }
+    .points article p { color: var(--text-secondary); }
+    @media (max-width: 860px) {
+      .ri-readout, .ri-split { grid-template-columns: 1fr; }
+      .ri-bar { grid-template-columns: 1fr; gap: 6px; }
+    }
+  </style>
+</head>
+<body class="subpage">
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><img class="brand-logo" src="./assets/brand/hm-logo.webp" width="40" height="40" alt="" />Haley Maes</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="../../index.html#work">Work</a>
+        <a href="../../index.html#work">Capabilities</a>
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="case">
+    <div class="wrap">
+      <div class="case-top">
+        <div>
+          <p class="status">Completed study</p>
+          <h1>Revenue Intelligence &amp; Forecasting</h1>
+        </div>
+        <div class="prose">
+          <p class="case-lead">Merchandise net sales for a UK online gift wholesaler, built from the public UCI Online Retail II invoice lines. Prices are nominal pounds. Nothing here is profit, margin, or a cash forecast.</p>
+          <p><a class="quiet-link" href="../../index.html#work">All work</a></p>
+        </div>
+      </div>
+
+      <section class="console" aria-labelledby="series-title">
+        <div class="console-top">
+          <span id="series-title">Online Retail II · Dec 2009–Nov 2011</span>
+          <span class="chip">Completed</span>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><span>Complete months</span><strong id="kpi-complete">—</strong></div>
+          <div class="metric"><span>Jan–Nov 2011 vs 2010</span><strong id="kpi-yoy">—</strong></div>
+          <div class="metric"><span>One-step error</span><strong id="kpi-wmape">—</strong></div>
+        </div>
+
+        <p class="ri-note">Scenario lines reuse last year’s same month, then apply the 10th or 90th percentile of the twelve observed year-over-year rates. The shaded band is an approximate 80% residual interval around the base case, published only for horizons that were walk-forward tested.</p>
+
+        <div class="ri-controls" role="group" aria-label="Scenario">
+          <button type="button" data-scenario="base" class="is-on">Base · last year</button>
+          <button type="button" data-scenario="downside">Downside · −9.2%</button>
+          <button type="button" data-scenario="upside">Best case · +19.0%</button>
+        </div>
+
+        <div class="ri-legend" aria-hidden="true">
+          <span><i></i> History</span>
+          <span><i class="forecast"></i> Selected scenario</span>
+          <span><i class="band"></i> 80% residual band</span>
+        </div>
+
+        <svg id="ri-chart" class="chart" viewBox="0 0 720 260" role="img" aria-label="Merchandise net sales history with forecast and uncertainty band"></svg>
+
+        <div class="ri-readout" aria-live="polite">
+          <div><span id="readout-month-label">Selected month</span><strong id="readout-month">—</strong></div>
+          <div><span>Point forecast</span><strong id="readout-point">—</strong></div>
+          <div><span>Band / note</span><strong id="readout-band">—</strong></div>
+        </div>
+        <p class="fine" id="chart-note"></p>
+      </section>
+
+      <div class="ri-split">
+        <section class="console" aria-labelledby="decomp-title">
+          <div class="console-top"><span id="decomp-title">Revenue decomposition</span><span class="chip">Extract</span></div>
+          <div class="ri-bars" id="decomp-bars"></div>
+          <p class="fine">Merchandise net equals gross plus signed returns plus discount and commission. Postage is reported and kept out of the forecast target. Same-day cancellations net to zero and are already removed from gross and returns.</p>
+        </section>
+
+        <section class="console" aria-labelledby="model-title">
+          <div class="console-top"><span id="model-title">Walk-forward, one-step</span><span class="chip">12 origins</span></div>
+          <div class="table-wrap">
+            <table>
+              <caption class="fine">Same expanding window for every model. Lowest MAE wins.</caption>
+              <thead>
+                <tr><th>Model</th><th>MAE</th><th>RMSE</th><th>wMAPE</th></tr>
+              </thead>
+              <tbody id="model-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="console" aria-labelledby="mix-title">
+        <div class="console-top"><span id="mix-title">Where the book sits</span><span class="chip">Concentration</span></div>
+        <div class="ri-split">
+          <div>
+            <div class="ri-bars" id="customer-bars"></div>
+            <p class="fine" id="customer-note"></p>
+          </div>
+          <div>
+            <div class="ri-bars" id="season-bars"></div>
+            <p class="fine">Seasonal index is each calendar month’s average divided by the average of all 24 complete months. November is the peak. December is an ordinary month because trading stops on 23 December.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="table-wrap console" style="margin-top:18px">
+        <div class="console-top"><span>Complete-month merchandise net sales</span><span class="chip">GBP</span></div>
+        <table>
+          <caption class="fine">Year-over-year compares the same calendar month. Postage is excluded.</caption>
+          <thead><tr><th>Month</th><th>Net sales</th><th>Vs prior year</th></tr></thead>
+          <tbody id="month-rows"></tbody>
+        </table>
+      </div>
+
+      <div class="points">
+        <article>
+          <h3>What was measured</h3>
+          <p id="copy-measured"></p>
+        </article>
+        <article>
+          <h3>The forecast that survived</h3>
+          <p id="copy-forecast"></p>
+        </article>
+        <article>
+          <h3>What a manager can do with this</h3>
+          <p>Build the base plan as last year, month by month. Put inventory and cash ahead of November, not December. Hold a one-month plan about £108,000 either side of the December point. Use the −9.2% case as the default downside, and treat April 2011 (−24.5%) as a stress test rather than the planning floor. Keep the unidentified 13.6% of sales visible so an account plan built only on identified customers is not mistaken for the whole book.</p>
+        </article>
+        <article>
+          <h3>Limits</h3>
+          <p>Two years of monthly points. Model choice and reported accuracy use the same twelve forecasts. The 80% band is a normal approximation from a small error sample. Nominal sterling, no cost file, so no profit or margin. Guest revenue cannot enter the customer Pareto. December 2011 ends on 9 December in the file and is not scored.</p>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/nav.js"></script>
+  <script src="./data.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var DATA = window.REVENUE_INTEL;
+      if (!DATA) return;
+
+      var state = { scenario: "base", focus: 0 };
+      var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      function money(value, digits) {
+        if (value == null || !isFinite(value)) return "—";
+        var abs = Math.abs(value);
+        var sign = value < 0 ? "−" : "";
+        if (abs >= 1e6) return sign + "£" + (abs / 1e6).toFixed(digits == null ? 2 : digits) + "M";
+        return sign + "£" + Math.round(abs).toLocaleString("en-GB");
+      }
+
+      function pct(value, digits) {
+        if (value == null || !isFinite(value)) return "—";
+        var signed = (value >= 0 ? "+" : "−") + (Math.abs(value) * 100).toFixed(digits == null ? 1 : digits) + "%";
+        return signed;
+      }
+
+      function plainPct(value, digits) {
+        if (value == null || !isFinite(value)) return "—";
+        return (Math.abs(value) * 100).toFixed(digits == null ? 1 : digits) + "%";
+      }
+
+      function labelMonth(ym) {
+        var parts = ym.split("-");
+        return monthNames[Number(parts[1]) - 1] + " " + parts[0].slice(2);
+      }
+
+      function longMonth(ym) {
+        var parts = ym.split("-");
+        var names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        return names[Number(parts[1]) - 1] + " " + parts[0];
+      }
+
+      function token(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      function scenarioValue(row) {
+        if (state.scenario === "downside") return row.scenario_downside;
+        if (state.scenario === "upside") return row.scenario_upside;
+        return row.base;
+      }
+
+      function fillKpis() {
+        var k = DATA.kpis;
+        document.getElementById("kpi-complete").textContent = money(k.complete_net);
+        document.getElementById("kpi-yoy").textContent = pct(k.jan_nov_yoy);
+        document.getElementById("kpi-wmape").textContent = plainPct(k.h1_wmape);
+        document.getElementById("copy-measured").innerHTML =
+          "Merchandise net sales are gross merchandise lines, plus returns, plus discount and commission lines. Across the whole extract that is " +
+          money(k.extract_net) + ". The 24 complete months are " + money(k.complete_net) +
+          ". Returns were " + plainPct(k.return_rate) + " of merchandise gross. Postage, " + money(k.postage) +
+          " signed, is kept out of the target. The source is Chen, D. (2012), <em>Online Retail II</em>, UCI Machine Learning Repository.";
+        document.getElementById("copy-forecast").textContent =
+          "On 12 one-step forecasts from December 2010 through November 2011, repeating the same month last year missed by " +
+          money(k.h1_mae) + " on average, or " + plainPct(k.h1_wmape) +
+          " of revenue. Last month missed by " + money(DATA.models.naive_last.mae) +
+          ". A drift model missed by " + money(DATA.models.drift.mae) +
+          ". A trend-plus-cycle regression missed by " + money(DATA.models.fourier_trend.mae) +
+          ". The base plan does not add a growth trend the data did not reward.";
+      }
+
+      function fillDecomp() {
+        var k = DATA.kpis;
+        var rows = [
+          ["Gross sales", k.gross, Math.abs(k.gross)],
+          ["Returns", k.returns, Math.abs(k.returns)],
+          ["Contra", k.contra, Math.abs(k.contra)],
+          ["Merchandise net", k.extract_net, Math.abs(k.extract_net)],
+          ["Postage (excluded)", k.postage, Math.abs(k.postage)]
+        ];
+        var max = Math.max.apply(null, rows.map(function (r) { return r[2]; }));
+        document.getElementById("decomp-bars").innerHTML = rows.map(function (r) {
+          return '<div class="ri-bar"><span>' + r[0] + '</span><i style="--w:' + ((r[2] / max) * 100).toFixed(1) + '%"></i><b>' + money(r[1]) + "</b></div>";
+        }).join("");
+      }
+
+      function fillModels() {
+        var order = ["seasonal_naive", "naive_last", "drift", "fourier_trend"];
+        var names = {
+          seasonal_naive: "Same month last year",
+          naive_last: "Last month repeats",
+          drift: "Drift",
+          fourier_trend: "Trend + annual cycle"
+        };
+        document.getElementById("model-rows").innerHTML = order.map(function (key) {
+          var row = DATA.models[key];
+          var mark = key === DATA.kpis.model ? " · selected" : "";
+          return "<tr><td>" + names[key] + mark + "</td><td>" + money(row.mae) + "</td><td>" + money(row.rmse) + "</td><td>" + plainPct(row.wmape) + "</td></tr>";
+        }).join("");
+      }
+
+      function fillConcentration() {
+        var k = DATA.kpis;
+        var customer = [
+          ["Top decile of customers", k.top_decile],
+          ["Top 10 accounts", k.top10_accounts],
+          ["Repeat customers", k.repeat_share],
+          ["UK share of net", k.uk_share],
+          ["No customer id", k.unidentified_share]
+        ];
+        document.getElementById("customer-bars").innerHTML = customer.map(function (r) {
+          return '<div class="ri-bar"><span>' + r[0] + '</span><i style="--w:' + (r[1] * 100).toFixed(1) + '%"></i><b>' + plainPct(r[1]) + "</b></div>";
+        }).join("");
+        document.getElementById("customer-note").textContent =
+          k.customers_50 + " of " + k.positive_customers.toLocaleString("en-GB") +
+          " identified customers account for half of positive identified sales; " +
+          k.customers_80 + " account for 80%. Median customer " + money(k.median_customer) +
+          "; mean " + money(k.mean_customer) + ". Top 10 products are only " + plainPct(k.top10_products) +
+          " of product net sales (" + k.products_50 + " products for half).";
+
+        document.getElementById("season-bars").innerHTML = DATA.seasonal.map(function (row) {
+          var width = Math.min(100, row.index_vs_all_complete_months / 1.9 * 100);
+          return '<div class="ri-bar"><span>' + monthNames[Number(row.calendar_month) - 1] + '</span><i style="--w:' + width.toFixed(1) + '%"></i><b>' + row.index_vs_all_complete_months.toFixed(2) + "×</b></div>";
+        }).join("");
+      }
+
+      function fillMonths() {
+        document.getElementById("month-rows").innerHTML = DATA.history.map(function (row) {
+          return "<tr><td>" + longMonth(row.month) + "</td><td>" + money(row.net) + "</td><td>" + (row.yoy == null ? "—" : pct(row.yoy)) + "</td></tr>";
+        }).join("");
+      }
+
+      function drawChart() {
+        var svg = document.getElementById("ri-chart");
+        var history = DATA.history;
+        var forward = DATA.forward;
+        var width = 720;
+        var height = 260;
+        var pad = { l: 44, r: 18, t: 18, b: 36 };
+        var values = history.map(function (d) { return d.net; })
+          .concat(forward.map(scenarioValue))
+          .concat(forward.filter(function (d) { return d.interval_published; }).map(function (d) { return d.residual_interval_low; }))
+          .concat(forward.filter(function (d) { return d.interval_published; }).map(function (d) { return d.residual_interval_high; }));
+        var minV = Math.min.apply(null, values) * 0.92;
+        var maxV = Math.max.apply(null, values) * 1.04;
+        var n = history.length + forward.length;
+        function x(i) { return pad.l + (i / (n - 1)) * (width - pad.l - pad.r); }
+        function y(v) { return pad.t + (1 - ((v - minV) / (maxV - minV))) * (height - pad.t - pad.b); }
+
+        var ink = token("--chart-ink") || "#171717";
+        var smoke = token("--chart-smoke") || "#62605E";
+        var accent = token("--accent-champagne") || "#C8AB91";
+        var grid = token("--chart-grid") || "rgba(48,42,41,0.12)";
+        var bandFill = "color-mix(in srgb, " + accent + " 28%, transparent)";
+
+        var histPts = history.map(function (d, i) { return [x(i), y(d.net)]; });
+        var forecastPts = [{ x: x(history.length - 1), y: y(history[history.length - 1].net) }]
+          .concat(forward.map(function (d, i) { return { x: x(history.length + i), y: y(scenarioValue(d)), row: d, index: i }; }));
+
+        var band = forward.filter(function (d) { return d.interval_published; });
+        var bandPath = "";
+        if (band.length) {
+          var upper = band.map(function (d, i) { return x(history.length + i) + "," + y(d.residual_interval_high); });
+          var lower = band.map(function (d, i) { return x(history.length + i) + "," + y(d.residual_interval_low); }).reverse();
+          bandPath = "M" + upper.join(" L") + " L" + lower.join(" L") + " Z";
+        }
+
+        var histPath = histPts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ");
+        var forecastPath = forecastPts.map(function (p, i) { return (i ? "L" : "M") + p.x.toFixed(1) + "," + p.y.toFixed(1); }).join(" ");
+
+        var ticks = [0, 3, 6, 9, 12, 15, 18, 21, 23].map(function (i) {
+          return '<text x="' + x(i).toFixed(1) + '" y="' + (height - 12) + '" text-anchor="middle" fill="' + smoke + '" font-size="11" font-family="Inter, sans-serif">' + labelMonth(history[i].month) + "</text>";
+        }).join("");
+
+        var forecastTicks = forward.map(function (d, i) {
+          if (i > 2) return "";
+          return '<text x="' + x(history.length + i).toFixed(1) + '" y="' + (height - 12) + '" text-anchor="middle" fill="' + accent + '" font-size="11" font-family="Inter, sans-serif">' + labelMonth(d.month) + "</text>";
+        }).join("");
+
+        var focus = forecastPts[state.focus + 1] || forecastPts[1];
+        svg.innerHTML =
+          '<g stroke="' + grid + '" fill="none"><path d="M' + pad.l + ' 30H' + (width - pad.r) + "M" + pad.l + " 90H" + (width - pad.r) + "M" + pad.l + " 150H" + (width - pad.r) + "M" + pad.l + " 210H" + (width - pad.r) + '" /></g>' +
+          (bandPath ? '<path d="' + bandPath + '" fill="' + bandFill + '" stroke="none"></path>' : "") +
+          '<path d="' + histPath + '" fill="none" stroke="' + ink + '" stroke-width="2.4"></path>' +
+          '<path d="' + forecastPath + '" fill="none" stroke="' + accent + '" stroke-width="2.2" stroke-dasharray="5 6"></path>' +
+          '<circle cx="' + focus.x.toFixed(1) + '" cy="' + focus.y.toFixed(1) + '" r="4.5" fill="' + accent + '"></circle>' +
+          ticks + forecastTicks;
+
+        var row = forward[state.focus] || forward[0];
+        document.getElementById("readout-month").textContent = longMonth(row.month);
+        document.getElementById("readout-point").textContent = money(scenarioValue(row));
+        document.getElementById("readout-band").textContent = row.interval_published
+          ? money(row.residual_interval_low) + " to " + money(row.residual_interval_high)
+          : "Point only · not walk-forward tested";
+        var note = "Solid line: merchandise net sales in the 24 complete months. Peak is " + longMonth(DATA.kpis.peak_month) +
+          " at " + money(DATA.kpis.peak) + ". Dashed line: " + state.scenario + " scenario from the selected model (" + DATA.kpis.model.replace("_", " ") + ").";
+        if (row.partial_month_actual_net_sales != null) {
+          note += " Partial " + longMonth(row.month) + " actual through " + row.partial_month_through.slice(8) + " December: " +
+            money(row.partial_month_actual_net_sales) + ". Not scored.";
+        }
+        document.getElementById("chart-note").textContent = note;
+      }
+
+      function bind() {
+        document.querySelectorAll("[data-scenario]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            state.scenario = btn.getAttribute("data-scenario");
+            document.querySelectorAll("[data-scenario]").forEach(function (b) {
+              b.classList.toggle("is-on", b === btn);
+            });
+            drawChart();
+          });
+        });
+        document.getElementById("ri-chart").addEventListener("click", function (event) {
+          var rect = event.currentTarget.getBoundingClientRect();
+          var ratio = (event.clientX - rect.left) / rect.width;
+          var idx = Math.round(ratio * (DATA.history.length + DATA.forward.length - 1)) - DATA.history.length;
+          state.focus = Math.max(0, Math.min(DATA.forward.length - 1, idx));
+          drawChart();
+        });
+        document.addEventListener("themechange", drawChart);
+        window.addEventListener("resize", drawChart);
+      }
+
+      fillKpis();
+      fillDecomp();
+      fillModels();
+      fillConcentration();
+      fillMonths();
+      bind();
+      drawChart();
+    })();
+  </script>
+</body>
+</html>
