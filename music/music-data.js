@@ -239,12 +239,12 @@ window.MUSIC_DATA = {
    ]
   },
   "replay": {
-   "sql": "-- Apple Music Replay's #1 artist for each month of 2023-2025, typed in from the\n-- Replay screens. Replay counts everything I streamed, saved or not.\nCREATE TABLE replay_number_one (month TEXT PRIMARY KEY, artist TEXT NOT NULL);\nINSERT INTO replay_number_one (month, artist) VALUES\n  ('2023-01', 'Beyoncé'), ('2023-02', 'Chris Stapleton'), ('2023-03', 'Morgan Wallen'),\n  ('2023-04', 'Luke Combs'), ('2023-05', 'Luke Combs'), ('2023-06', 'Luke Combs'),\n  ('2023-07', 'Morgan Wallen'), ('2023-08', 'Morgan Wallen'), ('2023-09', 'Morgan Wallen'),\n  ('2023-10', 'Luke Combs'), ('2023-11', 'Luke Combs'), ('2023-12', 'Morgan Wallen'),\n  ('2024-01', 'Luke Combs'), ('2024-02', 'Morgan Wallen'), ('2024-03', 'Morgan Wallen'),\n  ('2024-04', 'Morgan Wallen'), ('2024-05', 'Morgan Wallen'), ('2024-06', 'Kenny Chesney'),\n  ('2024-07', 'Kenny Chesney'), ('2024-08', 'Luke Combs'), ('2024-09', 'Morgan Wallen'),\n  ('2024-10', 'Morgan Wallen'), ('2024-11', 'Whitney Houston'), ('2024-12', 'Kenny Chesney'),\n  ('2025-01', 'Morgan Wallen'), ('2025-02', 'Luke Combs'), ('2025-03', 'Luke Combs'),\n  ('2025-04', 'Luke Combs'), ('2025-05', 'Morgan Wallen'), ('2025-06', 'Luke Combs'),\n  ('2025-07', 'Post Malone'), ('2025-08', 'Luke Combs'), ('2025-09', 'Ariana Grande'),\n  ('2025-10', 'Luke Combs'), ('2025-11', 'Luke Combs'), ('2025-12', 'Luke Combs');",
+   "sql": "-- Apple Music Replay, typed in from the Replay screens: each month's #1 artist\n-- (2023 to October 2026), minutes per month (shown for 2026), and full-year\n-- minutes (2023-2025). Replay counts everything I streamed, saved or not.\nCREATE TABLE replay_month (\n  month      TEXT PRIMARY KEY,   -- 'YYYY-MM'\n  top_artist TEXT NOT NULL,\n  minutes    INTEGER             -- NULL where Replay shows no monthly total\n);\nINSERT INTO replay_month (month, top_artist, minutes) VALUES\n  ('2023-01', 'Beyoncé'         , NULL),\n  ('2023-02', 'Chris Stapleton' , NULL),\n  ('2023-03', 'Morgan Wallen'   , NULL),\n  ('2023-04', 'Luke Combs'      , NULL),\n  ('2023-05', 'Luke Combs'      , NULL),\n  ('2023-06', 'Luke Combs'      , NULL),\n  ('2023-07', 'Morgan Wallen'   , NULL),\n  ('2023-08', 'Morgan Wallen'   , NULL),\n  ('2023-09', 'Morgan Wallen'   , NULL),\n  ('2023-10', 'Luke Combs'      , NULL),\n  ('2023-11', 'Luke Combs'      , NULL),\n  ('2023-12', 'Morgan Wallen'   , NULL),\n  ('2024-01', 'Luke Combs'      , NULL),\n  ('2024-02', 'Morgan Wallen'   , NULL),\n  ('2024-03', 'Morgan Wallen'   , NULL),\n  ('2024-04', 'Morgan Wallen'   , NULL),\n  ('2024-05', 'Morgan Wallen'   , NULL),\n  ('2024-06', 'Kenny Chesney'   , NULL),\n  ('2024-07', 'Kenny Chesney'   , NULL),\n  ('2024-08', 'Luke Combs'      , NULL),\n  ('2024-09', 'Morgan Wallen'   , NULL),\n  ('2024-10', 'Morgan Wallen'   , NULL),\n  ('2024-11', 'Whitney Houston' , NULL),\n  ('2024-12', 'Kenny Chesney'   , NULL),\n  ('2025-01', 'Morgan Wallen'   , NULL),\n  ('2025-02', 'Luke Combs'      , NULL),\n  ('2025-03', 'Luke Combs'      , NULL),\n  ('2025-04', 'Luke Combs'      , NULL),\n  ('2025-05', 'Morgan Wallen'   , NULL),\n  ('2025-06', 'Luke Combs'      , NULL),\n  ('2025-07', 'Post Malone'     , NULL),\n  ('2025-08', 'Luke Combs'      , NULL),\n  ('2025-09', 'Ariana Grande'   , NULL),\n  ('2025-10', 'Luke Combs'      , NULL),\n  ('2025-11', 'Luke Combs'      , NULL),\n  ('2025-12', 'Luke Combs'      , NULL),\n  ('2026-01', 'Morgan Wallen'   , 3278),\n  ('2026-02', 'Morgan Wallen'   , 5218),\n  ('2026-03', 'Morgan Wallen'   , 4349),\n  ('2026-04', 'Morgan Wallen'   , 4803),\n  ('2026-05', 'Morgan Wallen'   , 6731),\n  ('2026-06', 'Morgan Wallen'   , 5091),\n  ('2026-07', 'Ariana Grande'   , 5276),\n  ('2026-08', 'Morgan Wallen'   , 4901),\n  ('2026-09', 'Morgan Wallen'   , 4578),\n  ('2026-10', 'Morgan Wallen'   , 4047);\nCREATE TABLE replay_year (year INTEGER PRIMARY KEY, minutes INTEGER NOT NULL);\nINSERT INTO replay_year (year, minutes) VALUES (2023, 44767), (2024, 35538), (2025, 41848);",
    "columns": [],
    "rows": []
   },
   "number_ones": {
-   "sql": "-- Who held #1 each month, and how many months each artist held it.\nSELECT month,\n       artist,\n       COUNT(*) OVER (PARTITION BY artist) AS months_at_one\nFROM replay_number_one\nORDER BY month;",
+   "sql": "-- Who held #1 each month, and how many months each artist held it.\nSELECT month,\n       top_artist AS artist,\n       COUNT(*) OVER (PARTITION BY top_artist) AS months_at_one\nFROM replay_month\nORDER BY month;",
    "columns": [
     "month",
     "artist",
@@ -264,7 +264,7 @@ window.MUSIC_DATA = {
     [
      "2023-03",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2023-04",
@@ -284,17 +284,17 @@ window.MUSIC_DATA = {
     [
      "2023-07",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2023-08",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2023-09",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2023-10",
@@ -309,7 +309,7 @@ window.MUSIC_DATA = {
     [
      "2023-12",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-01",
@@ -319,22 +319,22 @@ window.MUSIC_DATA = {
     [
      "2024-02",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-03",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-04",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-05",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-06",
@@ -354,12 +354,12 @@ window.MUSIC_DATA = {
     [
      "2024-09",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-10",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2024-11",
@@ -374,7 +374,7 @@ window.MUSIC_DATA = {
     [
      "2025-01",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2025-02",
@@ -394,7 +394,7 @@ window.MUSIC_DATA = {
     [
      "2025-05",
      "Morgan Wallen",
-     13
+     22
     ],
     [
      "2025-06",
@@ -414,7 +414,7 @@ window.MUSIC_DATA = {
     [
      "2025-09",
      "Ariana Grande",
-     1
+     2
     ],
     [
      "2025-10",
@@ -430,11 +430,61 @@ window.MUSIC_DATA = {
      "2025-12",
      "Luke Combs",
      15
+    ],
+    [
+     "2026-01",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-02",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-03",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-04",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-05",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-06",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-07",
+     "Ariana Grande",
+     2
+    ],
+    [
+     "2026-08",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-09",
+     "Morgan Wallen",
+     22
+    ],
+    [
+     "2026-10",
+     "Morgan Wallen",
+     22
     ]
    ]
   },
   "months_vs_library": {
-   "sql": "-- Months at #1 next to all-time plays in my library (solo credits, as in the\n-- top-artist chart). Replay is one month of streaming; the library is all of it.\nWITH months AS (\n  SELECT artist, COUNT(*) AS months_at_one, MIN(month) AS first_month\n  FROM replay_number_one\n  GROUP BY artist\n),\nlibrary AS (\n  SELECT artist, SUM(play_count) AS plays\n  FROM songs\n  GROUP BY artist\n)\nSELECT m.artist,\n       m.months_at_one,\n       m.first_month,\n       COALESCE(l.plays, 0) AS library_plays,\n       ROUND(100.0 * COALESCE(l.plays, 0) / (SELECT MAX(plays) FROM library), 1) AS pct_of_top_artist\nFROM months AS m\nLEFT JOIN library AS l USING (artist)\nORDER BY m.months_at_one DESC, library_plays DESC;",
+   "sql": "-- Months at #1 next to all-time plays in my library (solo credits, as in the\n-- top-artist chart). Replay is one month of streaming; the library is all of it.\nWITH months AS (\n  SELECT top_artist AS artist, COUNT(*) AS months_at_one, MIN(month) AS first_month\n  FROM replay_month\n  GROUP BY top_artist\n),\nlibrary AS (\n  SELECT artist, SUM(play_count) AS plays\n  FROM songs\n  GROUP BY artist\n)\nSELECT m.artist,\n       m.months_at_one,\n       m.first_month,\n       COALESCE(l.plays, 0) AS library_plays,\n       ROUND(100.0 * COALESCE(l.plays, 0) / (SELECT MAX(plays) FROM library), 1) AS pct_of_top_artist\nFROM months AS m\nLEFT JOIN library AS l USING (artist)\nORDER BY m.months_at_one DESC, library_plays DESC;",
    "columns": [
     "artist",
     "months_at_one",
@@ -444,6 +494,13 @@ window.MUSIC_DATA = {
    ],
    "rows": [
     [
+     "Morgan Wallen",
+     22,
+     "2023-03",
+     5320,
+     100.0
+    ],
+    [
      "Luke Combs",
      15,
      "2023-04",
@@ -451,18 +508,18 @@ window.MUSIC_DATA = {
      87.3
     ],
     [
-     "Morgan Wallen",
-     13,
-     "2023-03",
-     5320,
-     100.0
-    ],
-    [
      "Kenny Chesney",
      3,
      "2024-06",
      1797,
      33.8
+    ],
+    [
+     "Ariana Grande",
+     2,
+     "2025-09",
+     714,
+     13.4
     ],
     [
      "Chris Stapleton",
@@ -486,13 +543,6 @@ window.MUSIC_DATA = {
      13.7
     ],
     [
-     "Ariana Grande",
-     1,
-     "2025-09",
-     714,
-     13.4
-    ],
-    [
      "Whitney Houston",
      1,
      "2024-11",
@@ -513,6 +563,118 @@ window.MUSIC_DATA = {
      "It's Not Right But It's Okay",
      "2024-11-01",
      14
+    ]
+   ]
+  },
+  "minutes_by_month": {
+   "sql": "-- Listening minutes per month, and per day. The day count comes from the\n-- calendar: the first of the month, plus a month, minus a day.\nWITH m AS (\n  SELECT month, minutes,\n         CAST(strftime('%d', month || '-01', '+1 month', '-1 day') AS INTEGER) AS days\n  FROM replay_month\n  WHERE minutes IS NOT NULL\n)\nSELECT month,\n       minutes,\n       days,\n       ROUND(1.0 * minutes / days) AS minutes_per_day,\n       ROUND(minutes / 60.0, 1)    AS hours\nFROM m\nORDER BY month;",
+   "columns": [
+    "month",
+    "minutes",
+    "days",
+    "minutes_per_day",
+    "hours"
+   ],
+   "rows": [
+    [
+     "2026-01",
+     3278,
+     31,
+     106.0,
+     54.6
+    ],
+    [
+     "2026-02",
+     5218,
+     28,
+     186.0,
+     87.0
+    ],
+    [
+     "2026-03",
+     4349,
+     31,
+     140.0,
+     72.5
+    ],
+    [
+     "2026-04",
+     4803,
+     30,
+     160.0,
+     80.0
+    ],
+    [
+     "2026-05",
+     6731,
+     31,
+     217.0,
+     112.2
+    ],
+    [
+     "2026-06",
+     5091,
+     30,
+     170.0,
+     84.8
+    ],
+    [
+     "2026-07",
+     5276,
+     31,
+     170.0,
+     87.9
+    ],
+    [
+     "2026-08",
+     4901,
+     31,
+     158.0,
+     81.7
+    ],
+    [
+     "2026-09",
+     4578,
+     30,
+     153.0,
+     76.3
+    ],
+    [
+     "2026-10",
+     4047,
+     31,
+     131.0,
+     67.5
+    ]
+   ]
+  },
+  "minutes_by_year": {
+   "sql": "-- Full-year totals for 2023-2025, and 2026 so far, summed from its months.\nSELECT year, minutes, 12 AS months\nFROM replay_year\nUNION ALL\nSELECT CAST(substr(month, 1, 4) AS INTEGER), SUM(minutes), COUNT(*)\nFROM replay_month\nWHERE minutes IS NOT NULL\nGROUP BY substr(month, 1, 4)\nORDER BY year DESC;",
+   "columns": [
+    "year",
+    "minutes",
+    "months"
+   ],
+   "rows": [
+    [
+     2026,
+     48272,
+     10
+    ],
+    [
+     2025,
+     41848,
+     12
+    ],
+    [
+     2024,
+     35538,
+     12
+    ],
+    [
+     2023,
+     44767,
+     12
     ]
    ]
   },
@@ -640,6 +802,88 @@ window.MUSIC_DATA = {
      406,
      34,
      7.7
+    ]
+   ]
+  },
+  "song_length": {
+   "sql": "-- Skip rate by song length, in one-minute bands (1 = under 2 minutes, 5 = 5+).\nWITH banded AS (\n  SELECT *, MAX(1, MIN(5, duration_ms / 60000)) AS band\n  FROM songs\n  WHERE duration_ms IS NOT NULL\n)\nSELECT band,\n       CASE band WHEN 1 THEN 'Under 2 min' WHEN 5 THEN '5+ min'\n                 ELSE band || '–' || (band + 1) || ' min' END                  AS length,\n       COUNT(*)                                                                AS songs,\n       SUM(play_count)                                                         AS plays,\n       ROUND(100.0 * SUM(play_count) / (SELECT SUM(play_count) FROM songs), 1) AS pct_of_plays,\n       ROUND(100.0 * SUM(skip_count) / (SUM(play_count) + SUM(skip_count)), 1) AS skip_rate\nFROM banded\nGROUP BY band\nORDER BY band;",
+   "columns": [
+    "band",
+    "length",
+    "songs",
+    "plays",
+    "pct_of_plays",
+    "skip_rate"
+   ],
+   "rows": [
+    [
+     1,
+     "Under 2 min",
+     471,
+     862,
+     1.4,
+     19.1
+    ],
+    [
+     2,
+     "2–3 min",
+     2837,
+     14300,
+     23.9,
+     13.8
+    ],
+    [
+     3,
+     "3–4 min",
+     6452,
+     35186,
+     58.9,
+     18.1
+    ],
+    [
+     4,
+     "4–5 min",
+     2553,
+     8099,
+     13.6,
+     24.1
+    ],
+    [
+     5,
+     "5+ min",
+     804,
+     1264,
+     2.1,
+     28.6
+    ]
+   ]
+  },
+  "length_extremes": {
+   "sql": "-- The shortest and longest songs I've played at least 30 times.\nSELECT * FROM (\n  SELECT 'shortest' AS which, name, artist, album, duration_ms, play_count AS plays\n  FROM songs WHERE play_count >= 30 ORDER BY duration_ms ASC LIMIT 1\n)\nUNION ALL\nSELECT * FROM (\n  SELECT 'longest', name, artist, album, duration_ms, play_count\n  FROM songs WHERE play_count >= 30 ORDER BY duration_ms DESC LIMIT 1\n);",
+   "columns": [
+    "which",
+    "name",
+    "artist",
+    "album",
+    "duration_ms",
+    "plays"
+   ],
+   "rows": [
+    [
+     "shortest",
+     "Life's Incredible Again",
+     "Michael Giacchino",
+     "The Incredibles (Music from the Motion Picture)",
+     84173,
+     64
+    ],
+    [
+     "longest",
+     "Finish Line / Drown (feat. T-Pain, Kirk Franklin, Eryn Allen Kane & Noname)",
+     "Chance the Rapper",
+     "Coloring Book",
+     406983,
+     51
     ]
    ]
   },

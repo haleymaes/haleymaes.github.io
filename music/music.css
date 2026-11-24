@@ -55,6 +55,7 @@
 .mp-chip--a { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .mp-chip--b { border-color: #EFD8D4; background: #EFD8D4; }
 .mp-chip--odd { border-color: var(--rose-ink); background: var(--rose-ink); color: #fff; font-weight: 600; }
+.mp-chip--empty { border-style: dashed; background: transparent; color: var(--ink-3); text-align: center; }
 
 .mp-sql { margin-top: 26px; }
 .mp-sql summary { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; font: 500 0.88rem/1.2 var(--sans); color: var(--rose-ink); list-style: none; }
@@ -87,8 +88,9 @@
   .viz text { font-size: 15px; }
   .viz .viz-label { font-size: 15px; }
   .mp-nav ul { gap: 16px; font-size: 0.92rem; }
-  .mp-months { border-spacing: 4px; margin: -4px; font-size: 0.74rem; }
+  .mp-months { border-spacing: 3px 4px; margin: -4px -3px; font-size: 0.7rem; }
   .mp-months thead th:first-child, .mp-months tbody th { width: 2.1rem; }
   .mp-months thead th { padding-left: 8px; }
-  .mp-chip { padding: 5px 8px; border-radius: 12px; white-space: normal; line-height: 1.15; }
+  .mp-chip { padding: 5px 6px; border-radius: 10px; white-space: normal; line-height: 1.15; }
+  .mp-months thead th { padding-left: 6px; }
 }

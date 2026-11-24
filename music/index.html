@@ -91,11 +91,23 @@
       <details class="wrap mp-sql"><summary>View the SQL</summary><pre><code data-sql="replay"></code></pre><pre><code data-sql></code></pre><pre><code data-sql="months_vs_library"></code></pre><pre><code data-sql="november_2024"></code></pre></details>
     </section>
 
-    <section class="mp-q" data-q="never_played" aria-labelledby="q5">
+    <section class="mp-q" data-q="minutes" aria-labelledby="q5">
       <div class="wrap mp-q__grid">
         <div class="mp-q__text">
           <p class="mp-q__num">05</p>
-          <h2 id="q5">The save-it-for-later pile</h2>
+          <h2 id="q5">How much I actually listen</h2>
+          <p class="mp-finding" data-finding></p>
+        </div>
+        <div class="mp-q__chart" data-chart></div>
+      </div>
+      <details class="wrap mp-sql"><summary>View the SQL</summary><pre><code data-sql="minutes_by_month"></code></pre><pre><code data-sql="minutes_by_year"></code></pre></details>
+    </section>
+
+    <section class="mp-q" data-q="never_played" aria-labelledby="q6">
+      <div class="wrap mp-q__grid">
+        <div class="mp-q__text">
+          <p class="mp-q__num">06</p>
+          <h2 id="q6">The save-it-for-later pile</h2>
           <p class="mp-finding" data-finding></p>
         </div>
         <div class="mp-q__chart" data-chart></div>
@@ -103,11 +115,11 @@
       <details class="wrap mp-sql"><summary>View the SQL</summary><pre><code data-sql></code></pre></details>
     </section>
 
-    <section class="mp-q" data-q="skips" aria-labelledby="q6">
+    <section class="mp-q" data-q="skips" aria-labelledby="q7">
       <div class="wrap mp-q__grid">
         <div class="mp-q__text">
-          <p class="mp-q__num">06</p>
-          <h2 id="q6">What I skip</h2>
+          <p class="mp-q__num">07</p>
+          <h2 id="q7">What I skip</h2>
           <p class="mp-aside">Small sample size, very high variance.</p>
           <p class="mp-finding" data-finding></p>
         </div>
@@ -116,11 +128,23 @@
       <details class="wrap mp-sql"><summary>View the SQL</summary><pre><code data-sql></code></pre></details>
     </section>
 
-    <section class="mp-q" data-q="decades" aria-labelledby="q7">
+    <section class="mp-q" data-q="song_length" aria-labelledby="q8">
       <div class="wrap mp-q__grid">
         <div class="mp-q__text">
-          <p class="mp-q__num">07</p>
-          <h2 id="q7">Which era I live in</h2>
+          <p class="mp-q__num">08</p>
+          <h2 id="q8">Do I skip the long ones?</h2>
+          <p class="mp-finding" data-finding></p>
+        </div>
+        <div class="mp-q__chart" data-chart></div>
+      </div>
+      <details class="wrap mp-sql"><summary>View the SQL</summary><pre><code data-sql></code></pre><pre><code data-sql="length_extremes"></code></pre></details>
+    </section>
+
+    <section class="mp-q" data-q="decades" aria-labelledby="q9">
+      <div class="wrap mp-q__grid">
+        <div class="mp-q__text">
+          <p class="mp-q__num">09</p>
+          <h2 id="q9">Which era I live in</h2>
           <p class="mp-finding" data-finding></p>
         </div>
         <div class="mp-q__chart" data-chart></div>
@@ -135,7 +159,7 @@
           <p>The Music app exports a library as one XML file. A short Python script loads it into a single SQLite table, <code>tracks</code>, keeping the columns the questions need: song, artist, genre, release year, length, play and skip counts, and dates. File paths, Apple’s internal IDs and playlist names stay out.</p>
           <p>Apple tags songs with more than 100 genre labels, including duplicates such as “Hip-Hop/Rap”, “Hip Hop/Rap”, “Hip-Hop” and “Rap”. A view groups them into seven families before any question is asked.</p>
           <details class="mp-sql mp-sql--inline"><summary>View the cleaning step</summary><pre><code data-sql="clean"></code></pre></details>
-          <p><strong>What the numbers are, and aren’t.</strong> Play and skip counts are Apple’s running totals for songs in my library, as of the export on <span data-exported></span>. Songs I streamed without saving aren’t here; Replay covers those, and the monthly #1s in question 04 come from Replay, typed in from the app. “Hours” multiplies plays by song length, so it assumes every play ran to the end.</p>
+          <p><strong>What the numbers are, and aren’t.</strong> Play and skip counts are Apple’s running totals for songs in my library, as of the export on <span data-exported></span>. Songs I streamed without saving aren’t here; Replay covers those, and questions 04 and 05 come from Replay, typed in from the app. “Hours” multiplies plays by song length, so it assumes every play ran to the end.</p>
         </div>
       </div>
     </section>

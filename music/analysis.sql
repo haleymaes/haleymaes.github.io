@@ -74,38 +74,79 @@ ORDER BY play_count DESC, skip_count ASC
 LIMIT 10;
 
 -- name: replay
--- Apple Music Replay's #1 artist for each month of 2023-2025, typed in from the
--- Replay screens. Replay counts everything I streamed, saved or not.
-CREATE TABLE replay_number_one (month TEXT PRIMARY KEY, artist TEXT NOT NULL);
-INSERT INTO replay_number_one (month, artist) VALUES
-  ('2023-01', 'Beyoncé'), ('2023-02', 'Chris Stapleton'), ('2023-03', 'Morgan Wallen'),
-  ('2023-04', 'Luke Combs'), ('2023-05', 'Luke Combs'), ('2023-06', 'Luke Combs'),
-  ('2023-07', 'Morgan Wallen'), ('2023-08', 'Morgan Wallen'), ('2023-09', 'Morgan Wallen'),
-  ('2023-10', 'Luke Combs'), ('2023-11', 'Luke Combs'), ('2023-12', 'Morgan Wallen'),
-  ('2024-01', 'Luke Combs'), ('2024-02', 'Morgan Wallen'), ('2024-03', 'Morgan Wallen'),
-  ('2024-04', 'Morgan Wallen'), ('2024-05', 'Morgan Wallen'), ('2024-06', 'Kenny Chesney'),
-  ('2024-07', 'Kenny Chesney'), ('2024-08', 'Luke Combs'), ('2024-09', 'Morgan Wallen'),
-  ('2024-10', 'Morgan Wallen'), ('2024-11', 'Whitney Houston'), ('2024-12', 'Kenny Chesney'),
-  ('2025-01', 'Morgan Wallen'), ('2025-02', 'Luke Combs'), ('2025-03', 'Luke Combs'),
-  ('2025-04', 'Luke Combs'), ('2025-05', 'Morgan Wallen'), ('2025-06', 'Luke Combs'),
-  ('2025-07', 'Post Malone'), ('2025-08', 'Luke Combs'), ('2025-09', 'Ariana Grande'),
-  ('2025-10', 'Luke Combs'), ('2025-11', 'Luke Combs'), ('2025-12', 'Luke Combs');
+-- Apple Music Replay, typed in from the Replay screens: each month's #1 artist
+-- (2023 to October 2026), minutes per month (shown for 2026), and full-year
+-- minutes (2023-2025). Replay counts everything I streamed, saved or not.
+CREATE TABLE replay_month (
+  month      TEXT PRIMARY KEY,   -- 'YYYY-MM'
+  top_artist TEXT NOT NULL,
+  minutes    INTEGER             -- NULL where Replay shows no monthly total
+);
+INSERT INTO replay_month (month, top_artist, minutes) VALUES
+  ('2023-01', 'Beyoncé'         , NULL),
+  ('2023-02', 'Chris Stapleton' , NULL),
+  ('2023-03', 'Morgan Wallen'   , NULL),
+  ('2023-04', 'Luke Combs'      , NULL),
+  ('2023-05', 'Luke Combs'      , NULL),
+  ('2023-06', 'Luke Combs'      , NULL),
+  ('2023-07', 'Morgan Wallen'   , NULL),
+  ('2023-08', 'Morgan Wallen'   , NULL),
+  ('2023-09', 'Morgan Wallen'   , NULL),
+  ('2023-10', 'Luke Combs'      , NULL),
+  ('2023-11', 'Luke Combs'      , NULL),
+  ('2023-12', 'Morgan Wallen'   , NULL),
+  ('2024-01', 'Luke Combs'      , NULL),
+  ('2024-02', 'Morgan Wallen'   , NULL),
+  ('2024-03', 'Morgan Wallen'   , NULL),
+  ('2024-04', 'Morgan Wallen'   , NULL),
+  ('2024-05', 'Morgan Wallen'   , NULL),
+  ('2024-06', 'Kenny Chesney'   , NULL),
+  ('2024-07', 'Kenny Chesney'   , NULL),
+  ('2024-08', 'Luke Combs'      , NULL),
+  ('2024-09', 'Morgan Wallen'   , NULL),
+  ('2024-10', 'Morgan Wallen'   , NULL),
+  ('2024-11', 'Whitney Houston' , NULL),
+  ('2024-12', 'Kenny Chesney'   , NULL),
+  ('2025-01', 'Morgan Wallen'   , NULL),
+  ('2025-02', 'Luke Combs'      , NULL),
+  ('2025-03', 'Luke Combs'      , NULL),
+  ('2025-04', 'Luke Combs'      , NULL),
+  ('2025-05', 'Morgan Wallen'   , NULL),
+  ('2025-06', 'Luke Combs'      , NULL),
+  ('2025-07', 'Post Malone'     , NULL),
+  ('2025-08', 'Luke Combs'      , NULL),
+  ('2025-09', 'Ariana Grande'   , NULL),
+  ('2025-10', 'Luke Combs'      , NULL),
+  ('2025-11', 'Luke Combs'      , NULL),
+  ('2025-12', 'Luke Combs'      , NULL),
+  ('2026-01', 'Morgan Wallen'   , 3278),
+  ('2026-02', 'Morgan Wallen'   , 5218),
+  ('2026-03', 'Morgan Wallen'   , 4349),
+  ('2026-04', 'Morgan Wallen'   , 4803),
+  ('2026-05', 'Morgan Wallen'   , 6731),
+  ('2026-06', 'Morgan Wallen'   , 5091),
+  ('2026-07', 'Ariana Grande'   , 5276),
+  ('2026-08', 'Morgan Wallen'   , 4901),
+  ('2026-09', 'Morgan Wallen'   , 4578),
+  ('2026-10', 'Morgan Wallen'   , 4047);
+CREATE TABLE replay_year (year INTEGER PRIMARY KEY, minutes INTEGER NOT NULL);
+INSERT INTO replay_year (year, minutes) VALUES (2023, 44767), (2024, 35538), (2025, 41848);
 
 -- name: number_ones
 -- Who held #1 each month, and how many months each artist held it.
 SELECT month,
-       artist,
-       COUNT(*) OVER (PARTITION BY artist) AS months_at_one
-FROM replay_number_one
+       top_artist AS artist,
+       COUNT(*) OVER (PARTITION BY top_artist) AS months_at_one
+FROM replay_month
 ORDER BY month;
 
 -- name: months_vs_library
 -- Months at #1 next to all-time plays in my library (solo credits, as in the
 -- top-artist chart). Replay is one month of streaming; the library is all of it.
 WITH months AS (
-  SELECT artist, COUNT(*) AS months_at_one, MIN(month) AS first_month
-  FROM replay_number_one
-  GROUP BY artist
+  SELECT top_artist AS artist, COUNT(*) AS months_at_one, MIN(month) AS first_month
+  FROM replay_month
+  GROUP BY top_artist
 ),
 library AS (
   SELECT artist, SUM(play_count) AS plays
@@ -128,6 +169,34 @@ FROM songs
 WHERE artist LIKE '%Whitney Houston%'
   AND date_added LIKE '2024-11%'
 ORDER BY date_added;
+
+-- name: minutes_by_month
+-- Listening minutes per month, and per day. The day count comes from the
+-- calendar: the first of the month, plus a month, minus a day.
+WITH m AS (
+  SELECT month, minutes,
+         CAST(strftime('%d', month || '-01', '+1 month', '-1 day') AS INTEGER) AS days
+  FROM replay_month
+  WHERE minutes IS NOT NULL
+)
+SELECT month,
+       minutes,
+       days,
+       ROUND(1.0 * minutes / days) AS minutes_per_day,
+       ROUND(minutes / 60.0, 1)    AS hours
+FROM m
+ORDER BY month;
+
+-- name: minutes_by_year
+-- Full-year totals for 2023-2025, and 2026 so far, summed from its months.
+SELECT year, minutes, 12 AS months
+FROM replay_year
+UNION ALL
+SELECT CAST(substr(month, 1, 4) AS INTEGER), SUM(minutes), COUNT(*)
+FROM replay_month
+WHERE minutes IS NOT NULL
+GROUP BY substr(month, 1, 4)
+ORDER BY year DESC;
 
 -- name: never_played
 -- The save-it-for-later pile, by the year the songs were added.
@@ -154,6 +223,36 @@ WITH rates AS (
 SELECT * FROM (SELECT 'most skipped' AS list, * FROM rates ORDER BY skip_rate DESC LIMIT 5)
 UNION ALL
 SELECT * FROM (SELECT 'least skipped' AS list, * FROM rates ORDER BY skip_rate ASC LIMIT 5);
+
+-- name: song_length
+-- Skip rate by song length, in one-minute bands (1 = under 2 minutes, 5 = 5+).
+WITH banded AS (
+  SELECT *, MAX(1, MIN(5, duration_ms / 60000)) AS band
+  FROM songs
+  WHERE duration_ms IS NOT NULL
+)
+SELECT band,
+       CASE band WHEN 1 THEN 'Under 2 min' WHEN 5 THEN '5+ min'
+                 ELSE band || '–' || (band + 1) || ' min' END                  AS length,
+       COUNT(*)                                                                AS songs,
+       SUM(play_count)                                                         AS plays,
+       ROUND(100.0 * SUM(play_count) / (SELECT SUM(play_count) FROM songs), 1) AS pct_of_plays,
+       ROUND(100.0 * SUM(skip_count) / (SUM(play_count) + SUM(skip_count)), 1) AS skip_rate
+FROM banded
+GROUP BY band
+ORDER BY band;
+
+-- name: length_extremes
+-- The shortest and longest songs I've played at least 30 times.
+SELECT * FROM (
+  SELECT 'shortest' AS which, name, artist, album, duration_ms, play_count AS plays
+  FROM songs WHERE play_count >= 30 ORDER BY duration_ms ASC LIMIT 1
+)
+UNION ALL
+SELECT * FROM (
+  SELECT 'longest', name, artist, album, duration_ms, play_count
+  FROM songs WHERE play_count >= 30 ORDER BY duration_ms DESC LIMIT 1
+);
 
 -- name: decades
 SELECT (year / 10) * 10 AS decade, SUM(play_count) AS plays, COUNT(*) AS songs
