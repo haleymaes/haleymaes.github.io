@@ -39,6 +39,11 @@ html[data-layout="study"] {
   --tint-1: #F2DAD6;
   --tint-2: #F2DAD6;
   --tint-3: #F2DAD6;
+  --tint-1-ink: var(--ink);
+  --tint-2-ink: var(--ink);
+  --tint-3-ink: var(--ink);
+  --accent-2: var(--accent);
+  --accent-3: var(--accent);
 
   --gray: var(--paper);
   --white: var(--card);
@@ -58,27 +63,46 @@ html[data-layout="study"] {
   background: var(--paper);
 }
 
-/* ----- 2. One accent per study ----- */
+/* ----- 2. One palette per study -----
+   Each block can also reset the page (--paper, --card, --ink...) and the tiles'
+   text (--tint-1-ink...). Colors in comments are from the reference palettes;
+   anything marked "deepened" is a darker step of that color so text and bars stay legible. */
 
-html[data-theme="study-ar"] {        /* 01 · navy */
-  --accent: #2F4E74; --accent-ink: #2F4E74; --accent-on: #FFFFFF; --accent-light: #A9C1DE;
-  --tint-1: #E0E7EF; --tint-2: #E0E7EF; --tint-3: #E0E7EF;
+html[data-theme="study-ar"] {        /* 01 · Strategic Editorial: #F2F0EA #171717 #3155FF #8E8E8E */
+  --paper: #F2F0EA; --paper-2: #E6E3DA; --card: #FAF9F5; --track: #E1DED5;
+  --ink: #171717; --ink-2: #2E2E2E; --ink-3: #5C5C5C; --rule: rgba(23, 23, 23, 0.14);
+  --dark: #171717; --dark-ink: #F2F0EA; --dark-muted: #A8A8A8;
+  --accent: #3155FF; --accent-ink: #2F50EE; --accent-on: #FFFFFF; --accent-light: #8EA2FF;
+  --tint-1: #3155FF; --tint-1-ink: #FFFFFF; --tint-2: #FAF9F5; --tint-3: #D9D7D0;
 }
-html[data-theme="study-student"] {   /* 02 · olive */
-  --accent: #5B7A3A; --accent-ink: #4B6630; --accent-on: #FFFFFF; --accent-light: #C3D9A0;
-  --tint-1: #E4ECD8; --tint-2: #E4ECD8; --tint-3: #E4ECD8;
+html[data-theme="study-student"] {   /* 02 · Chocolate Brown, Powder Blue, Antique White */
+  --paper: #EFE6D6; --paper-2: #E4D8C3; --card: #FAF5EC; --track: #E2D5BF;
+  --ink: #2B1F18; --ink-2: #44342A; --ink-3: #6A5749; --rule: rgba(43, 31, 24, 0.15);
+  --dark: #3B2A20; --dark-ink: #F4ECDF; --dark-muted: #CDBCAA;
+  --accent: #4A3226; --accent-ink: #5A3D2E; --accent-on: #FFFFFF; --accent-light: #A9C1DE;
+  --tint-1: #A9C1DE; --tint-2: #4A3226; --tint-2-ink: #F4ECDF; --tint-3: #FAF5EC;
 }
-html[data-theme="study-film"] {      /* 04 · pastel: dusty blue, sage, blush */
-  --accent: #5D84A6; --accent-ink: #4A6F90; --accent-on: #151213; --accent-light: #A9C4DA;
-  --tint-1: #DFE8F0; --tint-2: #DDEAE2; --tint-3: #F5E1DE;
+html[data-theme="study-film"] {      /* 04 · Sky and clouds: sky blue, cloud cream, peach, window orange */
+  --paper: #F5F1EA; --paper-2: #EAE3D8; --card: #FDFBF7; --track: #E6E0D6;
+  --ink: #1E2A38; --ink-2: #344456; --ink-3: #5B6878; --rule: rgba(30, 42, 56, 0.14);
+  --dark: #1E2A38; --dark-ink: #F5F1EA; --dark-muted: #AEB8C4;
+  --accent: #4F84B8; --accent-ink: #3A6B9C; --accent-on: #FFFFFF; --accent-light: #9CC2E5;
+  --accent-2: #D9892B; --accent-3: #E3A88C;
+  --tint-1: #D6E6F5; --tint-2: #F6E4CC; --tint-3: #F3D3C0;
 }
-html[data-theme="study-nike"] {      /* 05 · orange */
-  --accent: #C2561E; --accent-ink: #A3461A; --accent-on: #FFFFFF; --accent-light: #F2A57A;
-  --tint-1: #F7E1D3; --tint-2: #F7E1D3; --tint-3: #F7E1D3;
+html[data-theme="study-nike"] {      /* 05 · Couturelier: Macaroon #EDE9DC, Onyx #121212, Fibre #B6B0A6, Limelight #EDECE9, Coconut #FFFFFF, Grace #CCC6BD */
+  --paper: #EDE9DC; --paper-2: #E2DDD0; --card: #FFFFFF; --track: #EDECE9;
+  --ink: #121212; --ink-2: #2C2C2B; --ink-3: #5F5B55; --rule: rgba(18, 18, 18, 0.14);
+  --dark: #121212; --dark-ink: #EDECE9; --dark-muted: #B6B0A6;
+  --accent: #8A8276; --accent-ink: #6A645B; --accent-on: #121212; --accent-light: #CCC6BD;   /* Fibre, deepened */
+  --tint-1: #121212; --tint-1-ink: #EDECE9; --tint-2: #CCC6BD; --tint-3: #FFFFFF;
 }
-html[data-theme="study-fraud"] {     /* 06 · mustard */
-  --accent: #A07A00; --accent-ink: #7A5D00; --accent-on: #151213; --accent-light: #E8C547;
-  --tint-1: #F4EAC6; --tint-2: #F4EAC6; --tint-3: #F4EAC6;
+html[data-theme="study-fraud"] {     /* 06 · #D8D6D4, #7DA9C4, #0E0F12 */
+  --paper: #EEEDEB; --paper-2: #E1DFDC; --card: #FAF9F7; --track: #DEDCD9;
+  --ink: #0E0F12; --ink-2: #2A2C31; --ink-3: #5A5D63; --rule: rgba(14, 15, 18, 0.14);
+  --dark: #0E0F12; --dark-ink: #F2F1EF; --dark-muted: #A9ADB3;
+  --accent: #4F86A8; --accent-ink: #3B6E8E; --accent-on: #0E0F12; --accent-light: #7DA9C4;   /* dusty blue, deepened for bars */
+  --tint-1: #7DA9C4; --tint-2: #D8D6D4; --tint-3: #F2EDE4;
 }
 
 /* ----- 3. Base ----- */
@@ -156,6 +180,12 @@ html[data-layout="study"] .stat b,
 html[data-layout="study"] .viz-kpi b { font-family: var(--f-serif); font-weight: 400; letter-spacing: -0.01em; color: var(--ink); }
 html[data-layout="study"] .stat span,
 html[data-layout="study"] .viz-kpi em { color: var(--ink-2); }
+html[data-layout="study"] .stats .stat:nth-child(1) :is(b, span, em),
+html[data-layout="study"] .viz-kpis .viz-kpi:nth-child(1) :is(b, span, em) { color: var(--tint-1-ink); }
+html[data-layout="study"] .stats .stat:nth-child(2) :is(b, span, em),
+html[data-layout="study"] .viz-kpis .viz-kpi:nth-child(2) :is(b, span, em) { color: var(--tint-2-ink); }
+html[data-layout="study"] .stats .stat:nth-child(3) :is(b, span, em),
+html[data-layout="study"] .viz-kpis .viz-kpi:nth-child(3) :is(b, span, em) { color: var(--tint-3-ink); }
 html[data-layout="study"] .panel h3,
 html[data-layout="study"] .pa h3,
 html[data-layout="study"] .viz-kpi span { font: 500 10.5px/1.4 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
@@ -166,6 +196,9 @@ html[data-layout="study"] .drop-kicker,
 html[data-layout="study"] .prose .drop-kicker { margin: 0 0 8px; color: var(--ink-3); font: 500 10.5px/1.4 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
 html[data-layout="study"] .bar-track { background: var(--track); }
 html[data-layout="study"] .bar-fill { background: var(--accent); }
+html[data-theme="study-film"] .btn:hover { border-color: var(--accent-ink); background: var(--accent-ink); }   /* white on the deeper sky: 5.6:1 */
+html[data-theme="study-film"] .bars .bar-row:first-child .bar-fill { background: var(--accent-2); }   /* Animation, the leader */
+html[data-theme="study-film"] .bars .bar-row:last-child .bar-fill { background: var(--accent-3); }    /* Comedy: most common, lowest median */
 
 html[data-layout="study"] .viz-step,
 html[data-layout="study"] .viz-filter { border: 1px solid var(--rule); background: var(--card); color: var(--ink); }
@@ -181,6 +214,10 @@ html[data-layout="study"] .result.ontime { background: var(--tint-1); color: var
 html[data-layout="study"] thead th { border-bottom: 1px solid var(--ink); background: transparent; color: var(--ink-3); font: 500 10.5px/1.4 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
 html[data-layout="study"] td,
 html[data-layout="study"] th { border-color: var(--rule); }
+html[data-layout="study"] .prose > table { width: 100%; margin: 16px 0 8px; border-collapse: collapse; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+html[data-layout="study"] .prose > table th,
+html[data-layout="study"] .prose > table td { padding: 10px 14px 10px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+html[data-layout="study"] .prose > table th { white-space: nowrap; }
 
 /* Code */
 html[data-layout="study"] pre.code,
@@ -200,7 +237,7 @@ html[data-layout="study"] .ph-kpi { background: var(--paper-2); }
 html[data-layout="study"] .ph-kpi.hot { background: var(--dark); color: var(--dark-ink); }
 html[data-layout="study"] .ph-kpi em { color: var(--accent-ink); }
 html[data-layout="study"] .ph-kpi.hot em { color: var(--accent-light); }
-html[data-layout="study"] .ph-row b { background: var(--tint-1); color: var(--ink); }
+html[data-layout="study"] .ph-row b { background: var(--tint-1); color: var(--tint-1-ink); }
 
 /* ----- 7. Previous / next and the call to action ----- */
 
