@@ -9,7 +9,8 @@
  *             are nudged, if needed, until no label touches the copy, the card,
  *             the portrait or another node.
  *   stacked   below 1240px or on upright screens (CSS does the work): name,
- *             headline, portrait, a grid of the six studies, then the card.
+ *             headline, portrait. The orbit is hidden; the six studies are
+ *             listed once, in the work grid below.
  *
  * Interaction
  *   hover (after ~0.1s) / focus / tap a node   selects it: the card changes to that study, its

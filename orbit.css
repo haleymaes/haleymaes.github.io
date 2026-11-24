@@ -360,7 +360,7 @@ a { color: inherit; }
     --s: 0.6;
     --u: 0.6px;
     height: auto;
-    padding-bottom: 56px;
+    padding-bottom: 24px;
     display: flex;
     flex-direction: column;
   }
@@ -405,56 +405,8 @@ a { color: inherit; }
   .stage__role { top: 95.3%; font-size: clamp(14px, 4.4vw, 22px); }
   .stage__role span { width: clamp(28px, 9vw, 56px); }
 
-  .orbit { position: relative; inset: auto; margin: 26px 22px 0; pointer-events: auto; }
-  .orbit__head { display: block; margin: 0 0 6px; font: 500 11px/1.4 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); }
-  .orbit__nodes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: column;
-    column-gap: 18px;
-  }
-  .node {
-    position: relative;
-    left: auto !important;
-    top: auto !important;
-    grid-template-columns: 24px auto minmax(0, 1fr);
-    align-items: center;
-    column-gap: 8px;
-    width: 100%;
-    min-height: 64px;
-    padding: 10px 0;
-    border-top: 1px solid var(--rule);
-  }
-  .node__dot { position: relative; left: auto; top: auto; grid-column: 1; grid-row: 1; width: 24px; height: 24px; margin: 0; }
-  .node__num { grid-column: 2; grid-row: 1; font-size: 1.15rem; }
-  .node__title { grid-column: 3; grid-row: 1; font-size: 0.92rem; }
-  .node__title span { display: inline; white-space: normal; }
-  .orbit.is-engaged .node:not(.is-active) { opacity: 1; }
-
-  .card {
-    position: relative;
-    left: auto !important;
-    top: auto !important;
-    width: auto !important;
-    max-width: 560px;
-    margin: 22px auto 0;
-  }
-  .card__title { font-size: 1.55rem; }
-  .card__viz { max-width: 440px; }
-}
-
-/* Phones: the number sits above the title so titles keep the cell's width. */
-@media (max-width: 639px) {
-  .node { grid-template-columns: 24px minmax(0, 1fr); grid-template-rows: auto auto; row-gap: 1px; align-items: start; min-height: 66px; }
-  .node__dot { grid-row: 1 / span 2; align-self: center; }
-  .node__num { grid-column: 2; grid-row: 1; font-size: 1rem; line-height: 1.1; }
-  .node__title { grid-column: 2; grid-row: 2; font-size: 0.9rem; }
-}
-
-@media (min-width: 640px) and (max-width: 1239px), (min-width: 640px) and (max-aspect-ratio: 13/10) {
-  .orbit__nodes { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); max-width: 900px; margin: 0 auto; }
-  .orbit__head { text-align: center; }
+  /* The six studies are listed once, in Selected works, so the orbit list and card are dropped here. */
+  .orbit { display: none; }
 }
 
 /* ----- 6. Work, about, footer ----- */
