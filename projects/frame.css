@@ -82,13 +82,13 @@ html[data-theme="study-student"] {   /* 02 · Chocolate Brown, Powder Blue, Anti
   --accent: #4A3226; --accent-ink: #5A3D2E; --accent-on: #FFFFFF; --accent-light: #A9C1DE;
   --tint-1: #A9C1DE; --tint-2: #4A3226; --tint-2-ink: #F4ECDF; --tint-3: #FAF5EC;
 }
-html[data-theme="study-film"] {      /* 04 · Sky and clouds: sky blue, cloud cream, peach, window orange */
+html[data-theme="study-film"] {      /* 04 · Sky and clouds: sky blue, cloud grey, blush, dusk blue (no orange) */
   --paper: #F5F1EA; --paper-2: #EAE3D8; --card: #FDFBF7; --track: #E6E0D6;
   --ink: #1E2A38; --ink-2: #344456; --ink-3: #5B6878; --rule: rgba(30, 42, 56, 0.14);
   --dark: #1E2A38; --dark-ink: #F5F1EA; --dark-muted: #AEB8C4;
   --accent: #4F84B8; --accent-ink: #3A6B9C; --accent-on: #FFFFFF; --accent-light: #9CC2E5;
-  --accent-2: #D9892B; --accent-3: #E3A88C;
-  --tint-1: #D6E6F5; --tint-2: #F6E4CC; --tint-3: #F3D3C0;
+  --accent-2: #2C5582; --accent-3: #B06676;
+  --tint-1: #D6E6F5; --tint-2: #E9E5E1; --tint-3: #F1D9DD;
 }
 html[data-theme="study-nike"] {      /* 05 · Couturelier: Macaroon #EDE9DC, Onyx #121212, Fibre #B6B0A6, Limelight #EDECE9, Coconut #FFFFFF, Grace #CCC6BD */
   --paper: #EDE9DC; --paper-2: #E2DDD0; --card: #FFFFFF; --track: #EDECE9;
