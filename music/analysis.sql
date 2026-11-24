@@ -73,16 +73,61 @@ FROM songs
 ORDER BY play_count DESC, skip_count ASC
 LIMIT 10;
 
--- name: growth
--- Songs added per year, with the empty years filled in.
-WITH RECURSIVE years(y) AS (
-  SELECT 2007 UNION ALL SELECT y + 1 FROM years WHERE y < 2026
+-- name: replay
+-- Apple Music Replay's #1 artist for each month of 2023-2025, typed in from the
+-- Replay screens. Replay counts everything I streamed, saved or not.
+CREATE TABLE replay_number_one (month TEXT PRIMARY KEY, artist TEXT NOT NULL);
+INSERT INTO replay_number_one (month, artist) VALUES
+  ('2023-01', 'Beyoncé'), ('2023-02', 'Chris Stapleton'), ('2023-03', 'Morgan Wallen'),
+  ('2023-04', 'Luke Combs'), ('2023-05', 'Luke Combs'), ('2023-06', 'Luke Combs'),
+  ('2023-07', 'Morgan Wallen'), ('2023-08', 'Morgan Wallen'), ('2023-09', 'Morgan Wallen'),
+  ('2023-10', 'Luke Combs'), ('2023-11', 'Luke Combs'), ('2023-12', 'Morgan Wallen'),
+  ('2024-01', 'Luke Combs'), ('2024-02', 'Morgan Wallen'), ('2024-03', 'Morgan Wallen'),
+  ('2024-04', 'Morgan Wallen'), ('2024-05', 'Morgan Wallen'), ('2024-06', 'Kenny Chesney'),
+  ('2024-07', 'Kenny Chesney'), ('2024-08', 'Luke Combs'), ('2024-09', 'Morgan Wallen'),
+  ('2024-10', 'Morgan Wallen'), ('2024-11', 'Whitney Houston'), ('2024-12', 'Kenny Chesney'),
+  ('2025-01', 'Morgan Wallen'), ('2025-02', 'Luke Combs'), ('2025-03', 'Luke Combs'),
+  ('2025-04', 'Luke Combs'), ('2025-05', 'Morgan Wallen'), ('2025-06', 'Luke Combs'),
+  ('2025-07', 'Post Malone'), ('2025-08', 'Luke Combs'), ('2025-09', 'Ariana Grande'),
+  ('2025-10', 'Luke Combs'), ('2025-11', 'Luke Combs'), ('2025-12', 'Luke Combs');
+
+-- name: number_ones
+-- Who held #1 each month, and how many months each artist held it.
+SELECT month,
+       artist,
+       COUNT(*) OVER (PARTITION BY artist) AS months_at_one
+FROM replay_number_one
+ORDER BY month;
+
+-- name: months_vs_library
+-- Months at #1 next to all-time plays in my library (solo credits, as in the
+-- top-artist chart). Replay is one month of streaming; the library is all of it.
+WITH months AS (
+  SELECT artist, COUNT(*) AS months_at_one, MIN(month) AS first_month
+  FROM replay_number_one
+  GROUP BY artist
+),
+library AS (
+  SELECT artist, SUM(play_count) AS plays
+  FROM songs
+  GROUP BY artist
 )
-SELECT y AS year, COUNT(s.track_id) AS songs_added
-FROM years
-LEFT JOIN songs AS s ON CAST(substr(s.date_added, 1, 4) AS INTEGER) = y
-GROUP BY y
-ORDER BY y;
+SELECT m.artist,
+       m.months_at_one,
+       m.first_month,
+       COALESCE(l.plays, 0) AS library_plays,
+       ROUND(100.0 * COALESCE(l.plays, 0) / (SELECT MAX(plays) FROM library), 1) AS pct_of_top_artist
+FROM months AS m
+LEFT JOIN library AS l USING (artist)
+ORDER BY m.months_at_one DESC, library_plays DESC;
+
+-- name: november_2024
+-- The clue in the library: what I saved by Whitney Houston that November.
+SELECT name, substr(date_added, 1, 10) AS added, play_count AS plays
+FROM songs
+WHERE artist LIKE '%Whitney Houston%'
+  AND date_added LIKE '2024-11%'
+ORDER BY date_added;
 
 -- name: never_played
 -- The save-it-for-later pile, by the year the songs were added.

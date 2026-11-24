@@ -238,92 +238,281 @@ window.MUSIC_DATA = {
     ]
    ]
   },
-  "growth": {
-   "sql": "-- Songs added per year, with the empty years filled in.\nWITH RECURSIVE years(y) AS (\n  SELECT 2007 UNION ALL SELECT y + 1 FROM years WHERE y < 2026\n)\nSELECT y AS year, COUNT(s.track_id) AS songs_added\nFROM years\nLEFT JOIN songs AS s ON CAST(substr(s.date_added, 1, 4) AS INTEGER) = y\nGROUP BY y\nORDER BY y;",
+  "replay": {
+   "sql": "-- Apple Music Replay's #1 artist for each month of 2023-2025, typed in from the\n-- Replay screens. Replay counts everything I streamed, saved or not.\nCREATE TABLE replay_number_one (month TEXT PRIMARY KEY, artist TEXT NOT NULL);\nINSERT INTO replay_number_one (month, artist) VALUES\n  ('2023-01', 'Beyoncé'), ('2023-02', 'Chris Stapleton'), ('2023-03', 'Morgan Wallen'),\n  ('2023-04', 'Luke Combs'), ('2023-05', 'Luke Combs'), ('2023-06', 'Luke Combs'),\n  ('2023-07', 'Morgan Wallen'), ('2023-08', 'Morgan Wallen'), ('2023-09', 'Morgan Wallen'),\n  ('2023-10', 'Luke Combs'), ('2023-11', 'Luke Combs'), ('2023-12', 'Morgan Wallen'),\n  ('2024-01', 'Luke Combs'), ('2024-02', 'Morgan Wallen'), ('2024-03', 'Morgan Wallen'),\n  ('2024-04', 'Morgan Wallen'), ('2024-05', 'Morgan Wallen'), ('2024-06', 'Kenny Chesney'),\n  ('2024-07', 'Kenny Chesney'), ('2024-08', 'Luke Combs'), ('2024-09', 'Morgan Wallen'),\n  ('2024-10', 'Morgan Wallen'), ('2024-11', 'Whitney Houston'), ('2024-12', 'Kenny Chesney'),\n  ('2025-01', 'Morgan Wallen'), ('2025-02', 'Luke Combs'), ('2025-03', 'Luke Combs'),\n  ('2025-04', 'Luke Combs'), ('2025-05', 'Morgan Wallen'), ('2025-06', 'Luke Combs'),\n  ('2025-07', 'Post Malone'), ('2025-08', 'Luke Combs'), ('2025-09', 'Ariana Grande'),\n  ('2025-10', 'Luke Combs'), ('2025-11', 'Luke Combs'), ('2025-12', 'Luke Combs');",
+   "columns": [],
+   "rows": []
+  },
+  "number_ones": {
+   "sql": "-- Who held #1 each month, and how many months each artist held it.\nSELECT month,\n       artist,\n       COUNT(*) OVER (PARTITION BY artist) AS months_at_one\nFROM replay_number_one\nORDER BY month;",
    "columns": [
-    "year",
-    "songs_added"
+    "month",
+    "artist",
+    "months_at_one"
    ],
    "rows": [
     [
-     2007,
-     21
-    ],
-    [
-     2008,
-     2
-    ],
-    [
-     2009,
-     11
-    ],
-    [
-     2010,
-     9
-    ],
-    [
-     2011,
-     24
-    ],
-    [
-     2012,
-     2
-    ],
-    [
-     2013,
-     0
-    ],
-    [
-     2014,
+     "2023-01",
+     "Beyoncé",
      1
     ],
     [
-     2015,
-     16
+     "2023-02",
+     "Chris Stapleton",
+     1
     ],
     [
-     2016,
-     2
+     "2023-03",
+     "Morgan Wallen",
+     13
     ],
     [
-     2017,
+     "2023-04",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2023-05",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2023-06",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2023-07",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2023-08",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2023-09",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2023-10",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2023-11",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2023-12",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-01",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2024-02",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-03",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-04",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-05",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-06",
+     "Kenny Chesney",
      3
     ],
     [
-     2018,
+     "2024-07",
+     "Kenny Chesney",
+     3
+    ],
+    [
+     "2024-08",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2024-09",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-10",
+     "Morgan Wallen",
+     13
+    ],
+    [
+     "2024-11",
+     "Whitney Houston",
      1
     ],
     [
-     2019,
-     0
+     "2024-12",
+     "Kenny Chesney",
+     3
     ],
     [
-     2020,
-     5567
+     "2025-01",
+     "Morgan Wallen",
+     13
     ],
     [
-     2021,
-     2134
+     "2025-02",
+     "Luke Combs",
+     15
     ],
     [
-     2022,
-     1225
+     "2025-03",
+     "Luke Combs",
+     15
     ],
     [
-     2023,
-     490
+     "2025-04",
+     "Luke Combs",
+     15
     ],
     [
-     2024,
-     278
+     "2025-05",
+     "Morgan Wallen",
+     13
     ],
     [
-     2025,
-     536
+     "2025-06",
+     "Luke Combs",
+     15
     ],
     [
-     2026,
-     630
+     "2025-07",
+     "Post Malone",
+     1
+    ],
+    [
+     "2025-08",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2025-09",
+     "Ariana Grande",
+     1
+    ],
+    [
+     "2025-10",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2025-11",
+     "Luke Combs",
+     15
+    ],
+    [
+     "2025-12",
+     "Luke Combs",
+     15
+    ]
+   ]
+  },
+  "months_vs_library": {
+   "sql": "-- Months at #1 next to all-time plays in my library (solo credits, as in the\n-- top-artist chart). Replay is one month of streaming; the library is all of it.\nWITH months AS (\n  SELECT artist, COUNT(*) AS months_at_one, MIN(month) AS first_month\n  FROM replay_number_one\n  GROUP BY artist\n),\nlibrary AS (\n  SELECT artist, SUM(play_count) AS plays\n  FROM songs\n  GROUP BY artist\n)\nSELECT m.artist,\n       m.months_at_one,\n       m.first_month,\n       COALESCE(l.plays, 0) AS library_plays,\n       ROUND(100.0 * COALESCE(l.plays, 0) / (SELECT MAX(plays) FROM library), 1) AS pct_of_top_artist\nFROM months AS m\nLEFT JOIN library AS l USING (artist)\nORDER BY m.months_at_one DESC, library_plays DESC;",
+   "columns": [
+    "artist",
+    "months_at_one",
+    "first_month",
+    "library_plays",
+    "pct_of_top_artist"
+   ],
+   "rows": [
+    [
+     "Luke Combs",
+     15,
+     "2023-04",
+     4642,
+     87.3
+    ],
+    [
+     "Morgan Wallen",
+     13,
+     "2023-03",
+     5320,
+     100.0
+    ],
+    [
+     "Kenny Chesney",
+     3,
+     "2024-06",
+     1797,
+     33.8
+    ],
+    [
+     "Chris Stapleton",
+     1,
+     "2023-02",
+     1624,
+     30.5
+    ],
+    [
+     "Beyoncé",
+     1,
+     "2023-01",
+     1178,
+     22.1
+    ],
+    [
+     "Post Malone",
+     1,
+     "2025-07",
+     729,
+     13.7
+    ],
+    [
+     "Ariana Grande",
+     1,
+     "2025-09",
+     714,
+     13.4
+    ],
+    [
+     "Whitney Houston",
+     1,
+     "2024-11",
+     148,
+     2.8
+    ]
+   ]
+  },
+  "november_2024": {
+   "sql": "-- The clue in the library: what I saved by Whitney Houston that November.\nSELECT name, substr(date_added, 1, 10) AS added, play_count AS plays\nFROM songs\nWHERE artist LIKE '%Whitney Houston%'\n  AND date_added LIKE '2024-11%'\nORDER BY date_added;",
+   "columns": [
+    "name",
+    "added",
+    "plays"
+   ],
+   "rows": [
+    [
+     "It's Not Right But It's Okay",
+     "2024-11-01",
+     14
     ]
    ]
   },
