@@ -40,7 +40,6 @@
       <a class="pill" href="../index.html#work">← Work</a>
       <span class="pill">EDA</span>
       <span class="pill">pandas</span>
-      <a class="pill" href="python/tmdb_revenue.py">python/tmdb_revenue.py</a>
       <a class="pill" href="https://github.com/haleymaes/haleymaes.github.io/blob/main/projects/python/tmdb_revenue.py" target="_blank" rel="noopener noreferrer">GitHub · projects/python/tmdb_revenue.py</a>
     </div>
     <p class="article-lede">About 10,000 TMDb titles. Dependent variable: inflation-adjusted revenue. The work is association, not a recipe for a hit.</p>
@@ -59,7 +58,7 @@
     <div class="prose">
       <h2>The question</h2>
       <p><strong>If you greenlighted from genre volume, would you actually pick the titles that earn?</strong></p>
-      <p>Drama, Comedy, Thriller, and Action appear most often in this TMDb sample. Frequency is not the same as commercial performance. Among genres with ≥50 films that have known inflation-adjusted revenue, Animation’s median sits near $149M — Comedy’s near $47M. Budget and popularity move with adj. revenue; vote average and runtime are weaker.</p>
+      <p>Drama, Comedy, Thriller, and Action appear most often in this TMDb sample. Frequency is not the same as commercial performance.</p>
 
       <h2>Method</h2>
       <p>Pandas on the TMDb movie CSV (seaborn for the exploratory charts). Zeros in budget and revenue treated as missing (complete-case revenue work favors better-documented films). Multi-label genres expanded, so a film can sit in more than one bar. Runnable copy: <a href="python/tmdb_revenue.py"><code>python/tmdb_revenue.py</code></a>.</p>
@@ -109,7 +108,7 @@ year_vs_revenue = revenue["release_year"].corr(revenue["revenue_adj"])  # ~−0.
 
       <h2>Findings</h2>
       <p><strong>Budget and popularity</strong> show the strongest positive associations with high inflation-adjusted revenue. Vote average and runtime are weaker. That is a pattern in this sample, not proof that buying a bigger budget causes a bigger box office.</p>
-      <p>Drama, Comedy, Thriller, and Action appear most often. Frequency is not the same as commercial performance. Among genres with at least 50 films that have known revenue:</p>
+      <p>Among genres with at least 50 films that have known revenue:</p>
 
       <figure class="polaroid clip-pink tilt-l">
         <div class="polaroid-shot">
