@@ -1,6 +1,41 @@
 /* Revenue Intelligence & Forecasting. Tokens, base, .wrap, .eyebrow and .footer come from ../../orbit.css. */
 
-.ri-page { --ri-bar: #DCA79F; --ri-card: #FCFAF8; }
+:root {
+  --ri-bar: #DCA79F;
+  --ri-card: #FCFAF8;
+  --ri-band: rgba(232, 182, 175, 0.24);      /* forecast band on the dark card */
+  --ri-band-key: rgba(232, 182, 175, 0.28);
+  --ri-region: rgba(232, 182, 175, 0.06);    /* forecast side of the chart */
+  --ri-on-accent: var(--card);               /* text on a pressed button */
+}
+
+/* ----- Palettes: set data-palette on <html> to switch. Default is the site's rose. -----
+   Paris Night #121418 · Slate #5F6465 · Ivory #E9DEBE · Pearl White #FFFCF1 */
+html[data-palette="pearl"] {   /* Pearl White page, Paris Night forecast card, Slate bars, Ivory accents */
+  --paper: #FFFCF1; --paper-2: #F3ECD9; --ink: #121418; --ink-2: #33373B; --ink-3: #5F6465;
+  --rule: rgba(18, 20, 24, 0.14); --rose: #5F6465; --rose-ink: #5F6465; --blush-line: #E9DEBE;
+  --card: #121418; --card-ink: #FFFCF1; --card-muted: #ABADA7; --card-rule: rgba(255, 252, 241, 0.15); --card-rose: #E9DEBE;
+  --ri-card: #F8F2E1; --ri-bar: #5F6465;
+  --ri-band: rgba(233, 222, 190, 0.22); --ri-band-key: rgba(233, 222, 190, 0.32); --ri-region: rgba(233, 222, 190, 0.06);
+  --shadow: 0 34px 60px -30px rgba(18, 20, 24, 0.55), 0 10px 24px -14px rgba(18, 20, 24, 0.3);
+}
+html[data-palette="ivory"] {   /* Ivory page, Pearl White cards, Paris Night forecast card */
+  --paper: #E9DEBE; --paper-2: #DFD3AE; --ink: #121418; --ink-2: #2E3236; --ink-3: #4F5455;
+  --rule: rgba(18, 20, 24, 0.16); --rose: #4F5455; --rose-ink: #4F5455; --blush-line: #5F6465;
+  --card: #121418; --card-ink: #FFFCF1; --card-muted: #ABADA7; --card-rule: rgba(255, 252, 241, 0.15); --card-rose: #E9DEBE;
+  --ri-card: #FFFCF1; --ri-bar: #5F6465;
+  --ri-band: rgba(233, 222, 190, 0.22); --ri-band-key: rgba(233, 222, 190, 0.32); --ri-region: rgba(233, 222, 190, 0.06);
+  --shadow: 0 34px 60px -30px rgba(18, 20, 24, 0.55), 0 10px 24px -14px rgba(18, 20, 24, 0.3);
+}
+html[data-palette="night"] {   /* Paris Night page, Ivory forecast card, Slate lines */
+  --paper: #121418; --paper-2: #1A1D21; --ink: #FFFCF1; --ink-2: #E2DED2; --ink-3: #A4A8A8;
+  --rule: rgba(255, 252, 241, 0.14); --rose: #E9DEBE; --rose-ink: #E9DEBE; --blush-line: #5F6465;
+  --card: #E9DEBE; --card-ink: #121418; --card-muted: #4C5152; --card-rule: rgba(18, 20, 24, 0.16); --card-rose: #5F6465;
+  --ri-card: #1A1D21; --ri-bar: #7C8283; --ri-on-accent: #FFFCF1;
+  --ri-band: rgba(95, 100, 101, 0.22); --ri-band-key: rgba(95, 100, 101, 0.35); --ri-region: rgba(95, 100, 101, 0.07);
+  --shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.75);
+}
+html[data-palette] body { background: var(--paper); }
 
 /* Nav (same as the Apple Music page) */
 .ri-nav { border-bottom: 1px solid var(--rule); }
@@ -48,13 +83,13 @@
 .ri-controls button:hover,
 .ri-months button:hover { border-color: var(--card-rose); }
 .ri-controls button[aria-pressed="true"],
-.ri-months button[aria-pressed="true"] { border-color: var(--card-rose); background: var(--card-rose); color: var(--card); }
+.ri-months button[aria-pressed="true"] { border-color: var(--card-rose); background: var(--card-rose); color: var(--ri-on-accent); }
 .ri-legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 18px 0 6px; font-size: 0.82rem; color: var(--card-muted); }
 .ri-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .ri-key { display: inline-block; width: 20px; }
 .ri-key--history { height: 2px; background: var(--card-ink); }
 .ri-key--forecast { height: 0; border-top: 2px dashed var(--card-rose); }
-.ri-key--band { height: 10px; border-radius: 2px; background: rgba(232, 182, 175, 0.28); }
+.ri-key--band { height: 10px; border-radius: 2px; background: var(--ri-band-key); }
 .ri-chart { margin: 6px 0 0; }
 .ri-chart svg { display: block; width: 100%; height: auto; cursor: pointer; }
 .ri-chart text { font: 400 11.5px var(--sans); fill: var(--card-muted); }

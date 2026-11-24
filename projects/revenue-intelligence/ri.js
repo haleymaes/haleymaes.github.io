@@ -150,7 +150,7 @@
     var ink = token("--card-ink", "#F6EFEA"), rose = token("--card-rose", "#E8B6AF"), rule = token("--card-rule", "rgba(246,239,234,.16)");
     var out = [];
     var split = x(history.length - 1);
-    out.push('<rect x="' + split.toFixed(1) + '" y="' + pad.t + '" width="' + (W - pad.r - split).toFixed(1) + '" height="' + plotH + '" fill="rgba(232,182,175,0.06)"></rect>');
+    out.push('<rect x="' + split.toFixed(1) + '" y="' + pad.t + '" width="' + (W - pad.r - split).toFixed(1) + '" height="' + plotH + '" fill="' + token("--ri-region", "rgba(232,182,175,0.06)") + '"></rect>');
     out.push('<text class="is-forecast" x="' + (W - pad.r) + '" y="' + (pad.t - 8) + '" text-anchor="end">Forecast</text>');
     for (var t = Math.ceil(minV / step) * step; t <= maxV; t += step) {
       out.push('<line x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + y(t).toFixed(1) + '" y2="' + y(t).toFixed(1) + '" stroke="' + rule + '"></line>');
@@ -164,7 +164,7 @@
     if (published.length) {
       var up = published.map(function (d) { return x(history.length + forward.indexOf(d)).toFixed(1) + "," + y(d.residual_interval_high).toFixed(1); });
       var lo = published.map(function (d) { return x(history.length + forward.indexOf(d)).toFixed(1) + "," + y(d.residual_interval_low).toFixed(1); }).reverse();
-      out.push('<path d="M' + up.join(" L") + " L" + lo.join(" L") + ' Z" fill="rgba(232,182,175,0.24)"></path>');
+      out.push('<path d="M' + up.join(" L") + " L" + lo.join(" L") + ' Z" fill="' + token("--ri-band", "rgba(232,182,175,0.24)") + '"></path>');
     }
     out.push('<path d="' + history.map(function (d, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(d.net).toFixed(1); }).join(" ") +
       '" fill="none" stroke="' + ink + '" stroke-width="2.2" stroke-linejoin="round"></path>');
@@ -173,7 +173,7 @@
       '" fill="none" stroke="' + rose + '" stroke-width="2" stroke-dasharray="5 5" stroke-linejoin="round"></path>');
     var f = fpts[state.focus + 1];
     out.push('<line x1="' + f[0].toFixed(1) + '" x2="' + f[0].toFixed(1) + '" y1="' + pad.t + '" y2="' + (H - pad.b) + '" stroke="' + rose + '" stroke-opacity="0.5" stroke-dasharray="2 4"></line>');
-    out.push('<circle cx="' + f[0].toFixed(1) + '" cy="' + f[1].toFixed(1) + '" r="5.5" fill="' + rose + '" stroke="#1C1919" stroke-width="2"></circle>');
+    out.push('<circle cx="' + f[0].toFixed(1) + '" cy="' + f[1].toFixed(1) + '" r="5.5" fill="' + rose + '" stroke="' + token("--card", "#1C1919") + '" stroke-width="2"></circle>');
 
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.setAttribute("width", W);
