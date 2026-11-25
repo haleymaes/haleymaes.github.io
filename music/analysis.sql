@@ -254,9 +254,33 @@ SELECT * FROM (
   FROM songs WHERE play_count >= 30 ORDER BY duration_ms DESC LIMIT 1
 );
 
--- name: decades
-SELECT (year / 10) * 10 AS decade, SUM(play_count) AS plays, COUNT(*) AS songs
-FROM songs
-WHERE year >= 1950
-GROUP BY decade
-ORDER BY decade;
+-- name: one_hit_wonders
+-- Songs I play a lot by artists I otherwise never play. Every name on a song
+-- counts, so a duet with Luke Combs is not a one-hit wonder; two saves of the
+-- same song count once.
+WITH RECURSIVE credits(track_id, rest, credit) AS (    -- split "A, B & C" into names
+  SELECT track_id, REPLACE(REPLACE(artist, ' & ', '|'), ', ', '|') || '|', NULL
+  FROM songs
+  WHERE play_count > 0
+  UNION ALL
+  SELECT track_id, substr(rest, instr(rest, '|') + 1), trim(substr(rest, 1, instr(rest, '|') - 1))
+  FROM credits
+  WHERE rest <> ''
+),
+played AS (                                            -- every name on a song I've played
+  SELECT c.credit, s.name AS song, s.track_id
+  FROM credits c JOIN songs s USING (track_id)
+  WHERE c.credit <> ''
+),
+regulars AS (                                          -- names with 2+ different songs played
+  SELECT credit FROM played GROUP BY credit HAVING COUNT(DISTINCT lower(song)) > 1
+)
+SELECT s.name, s.artist, s.play_count AS plays,
+       (SELECT COUNT(*) FROM songs o
+        WHERE o.artist = s.artist AND o.track_id <> s.track_id) AS other_songs_saved
+FROM songs s
+WHERE s.play_count > 0
+  AND NOT EXISTS (SELECT 1 FROM played p JOIN regulars r USING (credit)
+                  WHERE p.track_id = s.track_id)
+ORDER BY s.play_count DESC
+LIMIT 10;

@@ -16,6 +16,6 @@ Public 10-K / earnings figures (FY2025). Analog only — not an employer.
 4. Dashboard: KPI strip (Revenue −10%, Inventory flat, Direct −13%, Jordan −16%) + the two bars + a note: “Clear Jordan and digital. Hold wholesale.”
 5. Save to Tableau Public. Copy the viz URL.
 
-Then add that URL on `nike.html` and the résumé.
+Then add that URL on `nike.html` and the resume.
 
 Until the public viz exists, the CSV in this repo and the HTML case study are the proof of the analysis.

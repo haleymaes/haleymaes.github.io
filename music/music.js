@@ -54,7 +54,7 @@
   const ext = Object.fromEntries(rows("length_extremes").map((r) => [r.which, r]));
   const never = rows("never_played");
   const skips = rows("skips");
-  const decades = rows("decades");
+  const wonders = rows("one_hit_wonders");
   const [first, second] = reign;
   const odd = reign.filter((r) => r.months_at_one === 1).sort((a, b) => a.library_plays - b.library_plays)[0];
   const monthName = (ym, opts = { month: "long", year: "numeric" }) => new Date(ym.slice(0, 7) + "-15T12:00:00Z").toLocaleDateString("en-US", opts);
@@ -80,8 +80,7 @@
   const recent = never.filter((r) => r.year_added >= "2021").map((r) => r.pct_never_played);
   const most = skips.filter((r) => r.list === "most skipped");
   const least = skips.filter((r) => r.list === "least skipped");
-  const newer = decades.filter((r) => r.decade >= 2010).reduce((a, r) => a + r.plays, 0);
-  const allPlays = decades.reduce((a, r) => a + r.plays, 0);
+  const w1 = wonders[0];
 
   const FINDINGS = {
     genre_mix: `Country is ${pct(country.pct_of_library)} of my library but ${pct(country.pct_of_plays)} of everything I play. Hip-Hop/Rap is the reverse: the biggest share of the library (${pct(hiphop.pct_of_library)}), and ${pct(hiphop.pct_of_plays)} of plays.`,
@@ -96,7 +95,9 @@
     song_length: `${cap(bandWords(highSkip))} get skipped ${pct(highSkip.skip_rate)} of the time, ${Math.abs(ratio - 2) < 0.25 ? "about twice as often as" : ratio.toFixed(1) + " times as often as"} ${bandWords(lowSkip)} (${pct(lowSkip.skip_rate)}). Most of my listening is ${bandWords(mostPlayed)}: ${pct(mostPlayed.pct_of_plays)} of plays. The shortest song I’ve played 30+ times is “${tidy(ext.shortest.name)}” from ${tidy(ext.shortest.album)} (${mmss(ext.shortest.duration_ms)}); the longest, ${ext.longest.artist}’s “${tidy(ext.longest.name)}” (${mmss(ext.longest.duration_ms)}).`,
     never_played: `${pct(o.pct_never_played)} of the library has never been played. It isn’t only old saves: since 2021, between ${pct(Math.min(...recent))} and ${pct(Math.max(...recent))} of each year’s additions are still waiting.`,
     skips: `${most[0].artist} gets skipped ${pct(most[0].skip_rate)} of the time; ${least[0].artist}, ${pct(least[0].skip_rate)}. Only artists with at least 150 plays and skips count here.`,
-    decades: `Songs released in the 2010s and 2020s make up ${pct(Math.round((1000 * newer) / allPlays) / 10)} of my plays.`
+    one_hit_wonders: `“${w1.name.replace(/'/g, "’")}” by ${w1.artist} is my biggest one-hit wonder: ${n(w1.plays)} plays, and not one play for anything else by them` +
+      (w1.other_songs_saved ? `, even with ${w1.other_songs_saved === 1 ? "another of their songs" : n(w1.other_songs_saved) + " more of their songs"} saved.` : ".") +
+      ` A duet only counts if nobody on it gets my plays anywhere else.`
   };
 
   /* ----- Charts ----- */
@@ -195,7 +196,7 @@
           figure(hbars(most, "skip_rate", "artist", pct, { hi: 1, max }), "Most skipped: share of plays and skips that were skips."),
           figure(hbars(least, "skip_rate", "artist", pct, { max }), "Least skipped, on the same scale."));
       },
-      decades: () => figure(columns(decades.map((r) => ({ ...r, label: r.decade + "s" })), "plays", "label", { hiWhen: (r) => r.decade >= 2010, fmt: n, labelEvery: 1, height: 180 }), "Plays by the decade a song was released.")
+      one_hit_wonders: () => h("ol", { class: "mp-songs" }, wonders.map((r) => h("li", {}, h("span", { class: "mp-songs__name" }, r.name), h("span", { class: "mp-songs__artist" }, r.artist), h("span", { class: "mp-songs__plays" }, n(r.plays) + " plays"))))
     };
 
     document.querySelectorAll("[data-q]").forEach((sec) => {
