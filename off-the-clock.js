@@ -3,6 +3,7 @@
  * panel (title and text in the middle, picture on the right) and hides the rest.
  * Click or tap a name; with the keyboard, the arrow keys, Home and End move
  * between names. Without this script every panel shows, one after another.
+ * The piano's keys press down under a mouse (CSS), a finger or a pen (below).
  */
 (() => {
   const root = document.querySelector("[data-otc]");
@@ -36,4 +37,17 @@
   });
 
   show(Math.max(0, tabs.findIndex((t) => t.getAttribute("aria-selected") === "true")));
+
+  // Piano keys press down under the pointer. Mouse hover is CSS (:hover); this
+  // adds touch and pen, and lets a finger slide along the keys like a glissando.
+  root.querySelectorAll(".piano .key").forEach((key) => {
+    const press = (on) => key.classList.toggle("is-down", on);
+    key.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "mouse") return;
+      if (key.hasPointerCapture(e.pointerId)) key.releasePointerCapture(e.pointerId);
+      press(true);
+    });
+    key.addEventListener("pointerenter", (e) => { if (e.pointerType !== "mouse" && e.buttons) press(true); });
+    ["pointerleave", "pointerup", "pointercancel"].forEach((type) => key.addEventListener(type, () => press(false)));
+  });
 })();
