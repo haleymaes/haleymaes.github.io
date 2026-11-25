@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" />
   <link rel="preload" as="image" href="assets/haley-headshot.webp" fetchpriority="high" />
-  <link rel="stylesheet" href="orbit.css?v=20261125" />
+  <link rel="stylesheet" href="orbit.css?v=20261125b" />
 </head>
 <body class="orbit-page">
   <a class="skip" href="#work">Skip to work</a>
@@ -139,7 +139,7 @@
              Without JavaScript the list is hidden and all four panels show in turn. -->
         <div class="otc" data-otc>
           <div class="otc__tabs" role="tablist" aria-label="Off the clock" aria-orientation="vertical">
-            <button class="otc__tab" type="button" role="tab" id="otc-tab-music" aria-controls="otc-music" aria-selected="true">Apple Music in SQL</button>
+            <button class="otc__tab" type="button" role="tab" id="otc-tab-music" aria-controls="otc-music" aria-selected="true">SELECT * FROM Replay</button>
             <button class="otc__tab" type="button" role="tab" id="otc-tab-boxing" aria-controls="otc-boxing" aria-selected="false" tabindex="-1">Boxing</button>
             <button class="otc__tab" type="button" role="tab" id="otc-tab-running" aria-controls="otc-running" aria-selected="false" tabindex="-1">Running</button>
             <button class="otc__tab" type="button" role="tab" id="otc-tab-piano" aria-controls="otc-piano" aria-selected="false" tabindex="-1">Piano</button>
@@ -149,7 +149,8 @@
           <section class="otc__panel is-active" id="otc-music" role="tabpanel" aria-labelledby="otc-tab-music" data-music-card>
             <div class="otc__text">
               <p class="otc__kicker">Personal data project</p>
-              <h3 class="otc__title otc__title--long">My Apple Music library, in SQL</h3>
+              <h3 class="otc__title otc__title--long">SELECT * FROM Replay</h3>
+              <p class="otc__sub">My Apple Music library, in SQL</p>
               <p class="otc__body otc__body--small" data-music-desc></p>
               <dl class="otc__stats" data-music-stats></dl>
               <ul class="otc__tools" aria-label="Tools"><li>SQL</li><li>SQLite</li><li>Python</li></ul>

@@ -539,6 +539,8 @@ h2 { margin: 0; font: 400 clamp(2.4rem, 4.6vw, 4rem)/1.04 var(--serif); letter-s
 .otc__kicker { margin: 0 0 12px; font: 500 11px/1.4 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-ink); }
 .otc__title { margin: 0 0 clamp(14px, 2vw, 24px); font: 400 clamp(3rem, 5.6vw, 5.4rem)/0.98 var(--display); letter-spacing: -0.02em; }
 .otc__title--long { font-size: clamp(2.2rem, 3.4vw, 3.3rem); line-height: 1.04; }
+.otc__title--long:has(+ .otc__sub) { margin-bottom: 10px; }
+.otc__sub { margin: 0 0 clamp(14px, 2vw, 22px); font: italic 400 clamp(1.05rem, 1.4vw, 1.25rem)/1.35 var(--serif); color: var(--rose-ink); }
 .otc__body { font: 400 clamp(1.08rem, 1.45vw, 1.4rem)/1.5 var(--serif); color: var(--ink); }
 .otc__body--small { font: 400 1rem/1.6 var(--sans); color: var(--ink-2); }
 .otc__stats { margin: 20px 0 0; padding: 4px 0; border-block: 1px solid var(--blush-line); }

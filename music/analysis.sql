@@ -1,4 +1,4 @@
--- My Apple Music library, in SQL (SQLite)
+-- SELECT * FROM Replay: my Apple Music library, in SQL (SQLite)
 -- One table, tracks, built from the Music app's library export by
 -- music/build_music_data.py (file paths, IDs and playlist names are dropped).
 -- Each block below is one question; the page shows them as written here.

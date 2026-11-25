@@ -15,7 +15,7 @@ python3 -m http.server 8765
 
 Then open [http://localhost:8765](http://localhost:8765).
 
-## Apple Music project
+## SELECT * FROM Replay (Apple Music project)
 
 `music/` is a personal SQL project linked from "Off the clock": the library export loaded into SQLite and queried.
 
