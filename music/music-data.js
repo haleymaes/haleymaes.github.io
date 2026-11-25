@@ -724,7 +724,7 @@ window.MUSIC_DATA = {
    ]
   },
   "skips": {
-   "sql": "-- Skip rate by artist. Small sample size, very high variance: so only\n-- artists with at least 150 plays and skips combined.\nWITH rates AS (\n  SELECT artist,\n         SUM(play_count) AS plays,\n         SUM(skip_count) AS skips,\n         ROUND(100.0 * SUM(skip_count) / (SUM(play_count) + SUM(skip_count)), 1) AS skip_rate\n  FROM songs\n  GROUP BY artist\n  HAVING SUM(play_count) + SUM(skip_count) >= 150\n)\nSELECT * FROM (SELECT 'most skipped' AS list, * FROM rates ORDER BY skip_rate DESC LIMIT 5)\nUNION ALL\nSELECT * FROM (SELECT 'least skipped' AS list, * FROM rates ORDER BY skip_rate ASC LIMIT 5);",
+   "sql": "-- Skip rate by artist, for artists with at least 150 plays and skips\n-- combined, so a handful of plays can’t swing the rate.\nWITH rates AS (\n  SELECT artist,\n         SUM(play_count) AS plays,\n         SUM(skip_count) AS skips,\n         ROUND(100.0 * SUM(skip_count) / (SUM(play_count) + SUM(skip_count)), 1) AS skip_rate\n  FROM songs\n  GROUP BY artist\n  HAVING SUM(play_count) + SUM(skip_count) >= 150\n)\nSELECT * FROM (SELECT 'most skipped' AS list, * FROM rates ORDER BY skip_rate DESC LIMIT 5)\nUNION ALL\nSELECT * FROM (SELECT 'least skipped' AS list, * FROM rates ORDER BY skip_rate ASC LIMIT 5);",
    "columns": [
     "list",
     "artist",

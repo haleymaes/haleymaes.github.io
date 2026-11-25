@@ -209,8 +209,8 @@ GROUP BY year_added
 ORDER BY year_added;
 
 -- name: skips
--- Skip rate by artist. Small sample size, very high variance: so only
--- artists with at least 150 plays and skips combined.
+-- Skip rate by artist, for artists with at least 150 plays and skips
+-- combined, so a handful of plays can’t swing the rate.
 WITH rates AS (
   SELECT artist,
          SUM(play_count) AS plays,
