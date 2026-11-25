@@ -97,6 +97,7 @@
     skips: `${most[0].artist} gets skipped ${pct(most[0].skip_rate)} of the time; ${least[0].artist}, ${pct(least[0].skip_rate)}. Only artists with at least 150 plays and skips count here.`,
     one_hit_wonders: `“${w1.name.replace(/'/g, "’")}” by ${w1.artist} is my biggest one-hit wonder: ${n(w1.plays)} plays, and not one play for anything else by them` +
       (w1.other_songs_saved ? `, even with ${w1.other_songs_saved === 1 ? "another of their songs" : n(w1.other_songs_saved) + " more of their songs"} saved.` : ".") +
+      (w1.name === "23" ? " I stopped listening to it once I turned 24." : "") +
       ` A duet only counts if nobody on it gets my plays anywhere else.`
   };
 
