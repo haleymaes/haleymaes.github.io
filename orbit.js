@@ -218,12 +218,10 @@
     );
   }
 
-  // Work section: the same studies, the same charts, in ORBIT_WORK_ORDER.
+  // Work section: the same studies, the same charts, in the same order.
   const work = document.querySelector("[data-work]");
   if (work) {
-    const order = window.ORBIT_WORK_ORDER || [];
-    const rank = (p) => { const i = order.indexOf(p.id); return i < 0 ? order.length + PROJECTS.indexOf(p) : i; };
-    PROJECTS.slice().sort((a, b) => rank(a) - rank(b)).forEach((p) => {
+    PROJECTS.forEach((p) => {
       work.append(h("li", { class: "work-card", id: `study-${p.id}` },
         h("a", { href: p.href },
           h("p", { class: "work-card__top" }, h("span", {}, p.kicker), h("span", { class: "work-card__num", "aria-hidden": "true" }, p.id)),

@@ -75,14 +75,14 @@ html[data-theme="study-ar"] {        /* 01 · Strategic Editorial: #F2F0EA #1717
   --accent: #3155FF; --accent-ink: #2F50EE; --accent-on: #FFFFFF; --accent-light: #8EA2FF;
   --tint-1: #3155FF; --tint-1-ink: #FFFFFF; --tint-2: #FAF9F5; --tint-3: #D9D7D0;
 }
-html[data-theme="study-student"] {   /* 02 · Chocolate Brown, Powder Blue, Antique White */
+html[data-theme="study-student"] {   /* 05 · Chocolate Brown, Powder Blue, Antique White */
   --paper: #EFE6D6; --paper-2: #E4D8C3; --card: #FAF5EC; --track: #E2D5BF;
   --ink: #2B1F18; --ink-2: #44342A; --ink-3: #6A5749; --rule: rgba(43, 31, 24, 0.15);
   --dark: #3B2A20; --dark-ink: #F4ECDF; --dark-muted: #CDBCAA;
   --accent: #4A3226; --accent-ink: #5A3D2E; --accent-on: #FFFFFF; --accent-light: #A9C1DE;
   --tint-1: #A9C1DE; --tint-2: #4A3226; --tint-2-ink: #F4ECDF; --tint-3: #FAF5EC;
 }
-html[data-theme="study-film"] {      /* 04 · Sky and clouds: sky blue, cloud grey, blush, dusk blue (no orange) */
+html[data-theme="study-film"] {      /* 06 · Sky and clouds: sky blue, cloud grey, blush, dusk blue (no orange) */
   --paper: #F5F1EA; --paper-2: #EAE3D8; --card: #FDFBF7; --track: #E6E0D6;
   --ink: #1E2A38; --ink-2: #344456; --ink-3: #5B6878; --rule: rgba(30, 42, 56, 0.14);
   --dark: #1E2A38; --dark-ink: #F5F1EA; --dark-muted: #AEB8C4;
@@ -90,14 +90,14 @@ html[data-theme="study-film"] {      /* 04 · Sky and clouds: sky blue, cloud gr
   --accent-2: #2C5582; --accent-3: #B06676;
   --tint-1: #D6E6F5; --tint-2: #E9E5E1; --tint-3: #F1D9DD;
 }
-html[data-theme="study-nike"] {      /* 05 · Couturelier: Macaroon #EDE9DC, Onyx #121212, Fibre #B6B0A6, Limelight #EDECE9, Coconut #FFFFFF, Grace #CCC6BD */
+html[data-theme="study-nike"] {      /* 04 · Couturelier: Macaroon #EDE9DC, Onyx #121212, Fibre #B6B0A6, Limelight #EDECE9, Coconut #FFFFFF, Grace #CCC6BD */
   --paper: #EDE9DC; --paper-2: #E2DDD0; --card: #FFFFFF; --track: #EDECE9;
   --ink: #121212; --ink-2: #2C2C2B; --ink-3: #5F5B55; --rule: rgba(18, 18, 18, 0.14);
   --dark: #121212; --dark-ink: #EDECE9; --dark-muted: #B6B0A6;
   --accent: #8A8276; --accent-ink: #6A645B; --accent-on: #121212; --accent-light: #CCC6BD;   /* Fibre, deepened */
   --tint-1: #121212; --tint-1-ink: #EDECE9; --tint-2: #CCC6BD; --tint-3: #FFFFFF;
 }
-html[data-theme="study-fraud"] {     /* 06 · #D8D6D4, #7DA9C4, #0E0F12 */
+html[data-theme="study-fraud"] {     /* 03 · #D8D6D4, #7DA9C4, #0E0F12 */
   --paper: #EEEDEB; --paper-2: #E1DFDC; --card: #FAF9F7; --track: #DEDCD9;
   --ink: #0E0F12; --ink-2: #2A2C31; --ink-3: #5A5D63; --rule: rgba(14, 15, 18, 0.14);
   --dark: #0E0F12; --dark-ink: #F2F1EF; --dark-muted: #A9ADB3;
