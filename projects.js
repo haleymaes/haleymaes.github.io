@@ -6,7 +6,9 @@
  * every number is one those pages already publish. Nothing here is estimated.
  *
  *   label    node title, one entry per line
- *   summary  one line for the hero card; description is the longer version
+ *   summary  one short line for the hero card; description is the longer
+ *            version used in Selected works
+ *   featured the study the hero card shows first (and returns to)
  *   tools    skills named on the case study
  *   preview  a small chart of figures from the case study
  *             kind: "area" (a series), "bars" (vertical), "hbars" (horizontal),
@@ -18,18 +20,19 @@
     {
       id: "01",
       slot: "l1",
+      featured: true,
       title: "Accounts Receivable Aging Analysis",
       label: ["A/R Aging"],
       kicker: "Excel · Financial reporting",
       tools: ["Excel", "A/R aging", "Collections"],
-      summary: "An Excel tracker and morning follow-up list that gets a dental practice’s 90+ balances worked first.",
-      description: "An Excel tracker and morning follow-up list for a Denver-area dental practice, built so 90+ balances get worked first.",
+      summary: "An Excel follow-up queue for a dental practice. Across two snapshots, 90+ day A/R went from 31.4% to 18.7% of the open balance.",
+      description: "Built an Excel follow-up queue for a dental practice. Across two snapshots, the 90+ day share of open A/R went from 31.4% to 18.7%.",
       href: "projects/ar-tracker.html",
       preview: {
         kind: "pair",
-        caption: "90+ share of open A/R, two dated pulls",
+        caption: "90+ day share of open A/R, two snapshots",
         unit: "%",
-        items: [{ label: "Before", value: 31.4 }, { label: "After", value: 18.7 }]
+        items: [{ label: "Earlier snapshot", value: 31.4 }, { label: "Later snapshot", value: 18.7 }]
       }
     },
     {
@@ -57,13 +60,12 @@
     {
       id: "03",
       slot: "l3",
-      featured: true,
       title: "Revenue Intelligence & Forecasting",
       label: ["Revenue Intelligence", "& Forecasting"],
       kicker: "Forecasting · Revenue analysis",
       tools: ["SQL", "Python", "Forecasting"],
-      summary: "Net sales for a UK online wholesaler from public UCI invoice lines, with a walk-forward forecast.",
-      description: "Merchandise net sales for a UK online wholesaler, built from public UCI invoice lines, with a walk-forward forecast.",
+      summary: "Monthly net sales for a UK online wholesaler. Same month last year was the best forecast: 8.4% error over 12 backtests.",
+      description: "Using the same month last year beat three alternatives, with 8.4% weighted absolute percentage error across 12 one-month backtests.",
       href: "projects/revenue-intelligence/",
       preview: {
         kind: "area",
@@ -123,8 +125,8 @@
       label: ["Transaction", "Anomaly Detection"],
       kicker: "DuckDB SQL · Fraud operations",
       tools: ["DuckDB", "SQL", "Window functions"],
-      summary: "Fraud rules plus a statistical score on 6.36 million PaySim transactions, at 200 alerts a day.",
-      description: "Fraud rules and a statistical score on 6.36 million PaySim transactions, tested on untouched days at 200 alerts per day.",
+      summary: "Rules plus a statistical score on simulated PaySim payments: 886 frauds caught versus 531, at 200 reviews a day.",
+      description: "Scoring caught 886 fraud cases versus 531 with rules alone on simulated holdout data, at the same 200 reviews per day.",
       href: "projects/transaction-anomaly.html",
       preview: {
         kind: "bars",
@@ -138,4 +140,7 @@
       }
     }
   ]);
+
+  // Selected works order (by id). The hero nodes keep their slots and numbers.
+  window.ORBIT_WORK_ORDER = Object.freeze(["01", "03", "06", "05", "02", "04"]);
 })();
